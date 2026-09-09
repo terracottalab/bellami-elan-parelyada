@@ -79,7 +79,7 @@ export const bodyHtml = `
       </div>
       <div class="footer-meta">
         <span>© 2026 Bellami-Elan Parelyada</span>
-        <span><a href="/ru/legal/privacy">Конфиденциальность</a> · <a href="/ru/legal/offer">Условия</a></span>
+        <span><a href="/ru/legal/privacy">Конфиденциальность</a> · <a href="/ru/legal/terms">Условия</a> · <a href="/ru/legal/offer">Договор оферты</a></span>
         <span>Юридические тексты будут предоставлены до публичного запуска.</span>
       </div>
     </div>
