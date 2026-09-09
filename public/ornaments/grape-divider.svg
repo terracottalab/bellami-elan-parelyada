@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 80" fill="currentColor">
+  <path d="M12 42 L328 40.7 L328 43.3 Z"/>
+  <path d="M788 42 L472 40.7 L472 43.3 Z"/>
+  <path d="M328 42c-11-9-18-4-17 3 6 7 12 4 17-3z"/>
+  <path d="M472 42c11-9 18-4 17 3-6 7-12 4-17-3z"/>
+  <!-- stem -->
+  <rect x="401.2" y="8" width="3.6" height="12" rx="1.2"/>
+  <!-- leaves: almond shapes above the bunch, angled out -->
+  <ellipse cx="378" cy="16" rx="16" ry="7" transform="rotate(-40 378 16)"/>
+  <ellipse cx="428" cy="16" rx="16" ry="7" transform="rotate(40 428 16)"/>
+  <!-- grapes -->
+  <circle cx="382" cy="36" r="6"/>
+  <circle cx="396" cy="34.5" r="6.2"/>
+  <circle cx="410" cy="34.5" r="6.2"/>
+  <circle cx="424" cy="36" r="6"/>
+  <circle cx="389" cy="47.5" r="6"/>
+  <circle cx="403" cy="46.5" r="6.3"/>
+  <circle cx="417" cy="47.5" r="6"/>
+  <circle cx="396" cy="58.5" r="5.9"/>
+  <circle cx="410" cy="58.5" r="5.9"/>
+  <circle cx="403" cy="69" r="5.8"/>
+</svg>
