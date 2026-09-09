@@ -26,6 +26,7 @@ import { Route as EnLegalTermsRouteImport } from './routes/en.legal.terms'
 import { Route as RuLegalOfferRouteImport } from './routes/ru.legal.offer'
 import { Route as RuLegalPrivacyRouteImport } from './routes/ru.legal.privacy'
 import { Route as RuLegalTermsRouteImport } from './routes/ru.legal.terms'
+import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -113,6 +114,11 @@ const RuLegalTermsRoute = RuLegalTermsRouteImport.update({
   path: '/ru/legal/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
+  id: '/api/public/media/$',
+  path: '/api/public/media/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -131,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -168,6 +176,7 @@ export interface FileRoutesById {
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/ru/legal/privacy'
     | '/ru/legal/terms'
     | '/admin/'
+    | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -205,6 +215,7 @@ export interface FileRouteTypes {
     | '/ru/legal/privacy'
     | '/ru/legal/terms'
     | '/admin'
+    | '/api/public/media/$'
   id:
     | '__root__'
     | '/'
@@ -224,6 +235,7 @@ export interface FileRouteTypes {
     | '/ru/legal/privacy'
     | '/ru/legal/terms'
     | '/_authenticated/admin/'
+    | '/api/public/media/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -239,6 +251,7 @@ export interface RootRouteChildren {
   RuLegalOfferRoute: typeof RuLegalOfferRoute
   RuLegalPrivacyRoute: typeof RuLegalPrivacyRoute
   RuLegalTermsRoute: typeof RuLegalTermsRoute
+  ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -362,6 +375,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RuLegalTermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/media/$': {
+      id: '/api/public/media/$'
+      path: '/api/public/media/$'
+      fullPath: '/api/public/media/$'
+      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -406,6 +426,7 @@ const rootRouteChildren: RootRouteChildren = {
   RuLegalOfferRoute: RuLegalOfferRoute,
   RuLegalPrivacyRoute: RuLegalPrivacyRoute,
   RuLegalTermsRoute: RuLegalTermsRoute,
+  ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

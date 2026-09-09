@@ -136,3 +136,38 @@ export const listPublicShows = createServerFn({ method: "GET" }).handler(async (
   }
   return data ?? [];
 });
+
+export const getSiteOverrides = createServerFn({ method: "GET" }).handler(async () => {
+  const supabase = publicClient();
+  const [content, photos, litter] = await Promise.all([
+    supabase.from("site_content").select("key, locale, value"),
+    supabase
+      .from("site_photos")
+      .select("id, slot, url, caption, alt, sort_order")
+      .order("sort_order", { ascending: true }),
+    supabase
+      .from("litters")
+      .select(
+        "id, name, planned_date, status, headline_ru, body_ru, headline_en, body_en, timing_label_ru, timing_label_en, is_published",
+      )
+      .eq("is_published", true)
+      .order("planned_date", { ascending: true })
+      .limit(1)
+      .maybeSingle(),
+  ]);
+
+  const rows = (content.data ?? []) as Array<{ key: string; locale: string; value: string }>;
+  const ru: Record<string, string> = {};
+  const en: Record<string, string> = {};
+  rows.forEach((row) => {
+    if (row.locale === "en") en[row.key] = row.value;
+    else ru[row.key] = row.value;
+  });
+
+  return {
+    ru,
+    en,
+    photos: photos.data ?? [],
+    litter: litter.data ?? null,
+  };
+});
