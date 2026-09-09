@@ -388,10 +388,10 @@ export const updateSitePhoto = createServerFn({ method: "POST" })
     await assertAdmin(context);
     const patch: { caption?: string | null; alt?: string | null; sort_order?: number } = {};
     if (data.caption !== undefined) {
-      patch["caption"] = data.caption || null;
-      patch["alt"] = data.caption || null;
+      patch.caption = data.caption || null;
+      patch.alt = data.caption || null;
     }
-    if (data.sort_order !== undefined) patch["sort_order"] = data.sort_order;
+    if (data.sort_order !== undefined) patch.sort_order = data.sort_order;
     const { error } = await context.supabase.from("site_photos").update(patch).eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true as const };
