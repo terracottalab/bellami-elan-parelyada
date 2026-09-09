@@ -101,7 +101,7 @@ export const bodyHtml = `
         <div class="btn-row show-career-cta">
           <a class="btn btn-line" href="/en/shows">All show results →</a>
         </div>
-        <p class="caption">The full list of shows, evaluations, judges and certificates is available on the main website.</p>
+        <p class="caption">The full list of shows, evaluations, judges and certificates is available here via the button.</p>
       </div>
       <div class="media-frame show-career-photo"><img src="${IMG["pari-show-career.jpg"]}" alt="Bellami-Elan Parelyada at a dog show" /></div>
     </div></section>
