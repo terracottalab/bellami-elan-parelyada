@@ -1506,3 +1506,147 @@ html, .landing{
 .landing.nav-open{
   overflow: hidden;
 }
+
+/* ---------- Visual refinements: rhythm, gallery, diplomas, form ---------- */
+.landing .section{
+  padding: clamp(2.75rem, 4vw, 5rem) 0;
+}
+
+.landing .section::after, .landing .section-tight::after{
+  height: 2.2rem;
+  margin: 1.6rem auto 0;
+}
+
+.landing .pillars{
+  display: grid;
+  gap: 1.75rem 2.5rem;
+}
+
+.landing .pillar p{
+  max-width: 38rem;
+}
+
+.landing .gallery-grid--compact{
+  gap: 0.9rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.landing .gallery-grid--compact .gallery-item{
+  display: block;
+  max-height: none;
+  aspect-ratio: 4 / 5;
+}
+
+.landing .gallery-grid--compact .gallery-item img{
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+}
+
+.landing .diploma-row{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  overflow: visible;
+}
+
+.landing .diploma-card{
+  display: grid;
+  grid-template-rows: auto auto;
+  max-width: none;
+  min-width: 0;
+}
+
+.landing .diploma-frame{
+  height: auto;
+  aspect-ratio: 3 / 4;
+}
+
+.landing .diploma-label{
+  text-align: center;
+}
+
+.landing .enquiry-band .btn-primary{
+  background: var(--champagne);
+  color: var(--charcoal);
+}
+
+.landing .enquiry-band .btn-primary:hover{
+  background: var(--ivory);
+  color: var(--charcoal);
+}
+
+.landing .consent{
+  grid-template-columns: auto 1fr;
+  align-items: center;
+}
+
+.landing .consent input{
+  min-height: 0;
+  width: 1.15rem;
+  height: 1.15rem;
+  padding: 0;
+  margin: 0;
+}
+
+.landing .pedigree-tree{
+  align-items: start;
+}
+
+.landing .pedigree-col{
+  align-content: start;
+}
+
+@media (max-width: 767px) {
+  .landing .hero{
+    min-height: 0;
+    grid-template-rows: minmax(34svh, 40svh) auto;
+  }
+
+  .landing .hero-media{
+    min-height: 34svh;
+  }
+}
+
+@media (min-width: 768px) {
+  .landing .gallery-grid--compact{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .landing .gallery-grid--compact .gallery-item,
+  .landing .gallery-grid--compact .gallery-item.hero-shot,
+  .landing .gallery-grid--compact .gallery-item.landscape{
+    grid-column: auto;
+    max-height: none;
+    aspect-ratio: 4 / 5;
+  }
+
+  .landing .gallery-grid--compact .gallery-item img{
+    max-height: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .landing .diploma-row{
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .landing .enquiry-form .form{
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1.75rem;
+    max-width: 54rem;
+  }
+
+  .landing .enquiry-form .form > :not(.field){
+    grid-column: 1 / -1;
+  }
+
+  .landing .enquiry-form .form .field:has(textarea),
+  .landing .enquiry-form .form .field:has(.consent){
+    grid-column: 1 / -1;
+  }
+}
