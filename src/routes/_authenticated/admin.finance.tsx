@@ -19,7 +19,14 @@ type Entry = {
   description: string | null;
 };
 
+const CURRENCIES = [
+  { code: "EUR", label: "Евро (€)" },
+  { code: "USD", label: "Доллары ($)" },
+  { code: "RUB", label: "Рубли (₽)" },
+] as const;
+
 const EMPTY = {
+
   entry_date: new Date().toISOString().slice(0, 10),
   direction: "income" as "income" | "expense",
   category: "",
