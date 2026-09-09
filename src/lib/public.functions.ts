@@ -123,3 +123,16 @@ export const trackPageView = createServerFn({ method: "POST" })
     });
     return { ok: true as const };
   });
+
+export const listPublicShows = createServerFn({ method: "GET" }).handler(async () => {
+  const supabase = publicClient();
+  const { data, error } = await supabase
+    .from("shows")
+    .select("id, show_date, title, country, city, dog_class, result, awarded_title, notes")
+    .order("show_date", { ascending: false });
+  if (error) {
+    console.error("shows read failed", error.message);
+    return [] as NonNullable<typeof data>;
+  }
+  return data ?? [];
+});

@@ -15,6 +15,13 @@
       "when": 1788981841720,
       "tag": "0001_tighten_function_grants",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788984225171,
+      "tag": "0002_public_read_shows",
+      "breakpoints": true
     }
   ]
 }

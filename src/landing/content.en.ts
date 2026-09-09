@@ -99,7 +99,7 @@ export const bodyHtml = `
           <div class="fact fact--wide"><dt>Key results</dt><dd>BISP-1 · BISP-3 · BISJ-1 · BISJ-2 · BIG-1 · BIG-2 · BIG-3 · BIS-2 · Best of Breed</dd></div>
         </dl>
         <div class="btn-row show-career-cta">
-          <a class="btn btn-line" href="https://norwichterrier.info/en/shows.html">All show results →</a>
+          <a class="btn btn-line" href="/en/shows">All show results →</a>
         </div>
         <p class="caption">The full list of shows, evaluations, judges and certificates is available on the main website.</p>
       </div>

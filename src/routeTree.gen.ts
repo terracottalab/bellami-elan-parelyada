@@ -14,6 +14,8 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as EnIndexRouteImport } from './routes/en.index'
+import { Route as EnShowsRouteImport } from './routes/en.shows'
+import { Route as RuShowsRouteImport } from './routes/ru.shows'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminEnquiriesRouteImport } from './routes/_authenticated/admin.enquiries'
 import { Route as AuthenticatedAdminFinanceRouteImport } from './routes/_authenticated/admin.finance'
@@ -47,6 +49,16 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
 const EnIndexRoute = EnIndexRouteImport.update({
   id: '/en/',
   path: '/en/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnShowsRoute = EnShowsRouteImport.update({
+  id: '/en/shows',
+  path: '/en/shows',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RuShowsRoute = RuShowsRouteImport.update({
+  id: '/ru/shows',
+  path: '/ru/shows',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
@@ -106,6 +118,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/en/shows': typeof EnShowsRoute
+  '/ru/shows': typeof RuShowsRoute
   '/en/': typeof EnIndexRoute
   '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/admin/finance': typeof AuthenticatedAdminFinanceRoute
@@ -121,6 +135,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/en/shows': typeof EnShowsRoute
+  '/ru/shows': typeof RuShowsRoute
   '/en': typeof EnIndexRoute
   '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/admin/finance': typeof AuthenticatedAdminFinanceRoute
@@ -139,6 +155,8 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/en/shows': typeof EnShowsRoute
+  '/ru/shows': typeof RuShowsRoute
   '/en/': typeof EnIndexRoute
   '/_authenticated/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/_authenticated/admin/finance': typeof AuthenticatedAdminFinanceRoute
@@ -157,6 +175,8 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/admin'
+    | '/en/shows'
+    | '/ru/shows'
     | '/en/'
     | '/admin/enquiries'
     | '/admin/finance'
@@ -172,6 +192,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/en/shows'
+    | '/ru/shows'
     | '/en'
     | '/admin/enquiries'
     | '/admin/finance'
@@ -189,6 +211,8 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/admin'
+    | '/en/shows'
+    | '/ru/shows'
     | '/en/'
     | '/_authenticated/admin/enquiries'
     | '/_authenticated/admin/finance'
@@ -206,6 +230,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  EnShowsRoute: typeof EnShowsRoute
+  RuShowsRoute: typeof RuShowsRoute
   EnIndexRoute: typeof EnIndexRoute
   EnLegalOfferRoute: typeof EnLegalOfferRoute
   EnLegalPrivacyRoute: typeof EnLegalPrivacyRoute
@@ -250,6 +276,20 @@ declare module '@tanstack/react-router' {
       path: '/en'
       fullPath: '/en/'
       preLoaderRoute: typeof EnIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/en/shows': {
+      id: '/en/shows'
+      path: '/en/shows'
+      fullPath: '/en/shows'
+      preLoaderRoute: typeof EnShowsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ru/shows': {
+      id: '/ru/shows'
+      path: '/ru/shows'
+      fullPath: '/ru/shows'
+      preLoaderRoute: typeof RuShowsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/': {
@@ -357,6 +397,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  EnShowsRoute: EnShowsRoute,
+  RuShowsRoute: RuShowsRoute,
   EnIndexRoute: EnIndexRoute,
   EnLegalOfferRoute: EnLegalOfferRoute,
   EnLegalPrivacyRoute: EnLegalPrivacyRoute,
