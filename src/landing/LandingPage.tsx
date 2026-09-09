@@ -3,7 +3,9 @@ import { useEffect, useRef } from "react";
 import { initLanding } from "./behavior";
 import { applyOverrides, type SiteOverrides } from "./overrides";
 import { submitEnquiry, trackPageView } from "@/lib/public.functions";
+import { ChatWidget } from "@/components/ChatWidget";
 import "./landing.css";
+import "@/components/chat-widget.css";
 
 export function LandingPage({
   html,
