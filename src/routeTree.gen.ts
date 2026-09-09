@@ -24,6 +24,7 @@ import { Route as AuthenticatedAdminFinanceRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminLitterRouteImport } from './routes/_authenticated/admin.litter'
 import { Route as AuthenticatedAdminPhotosRouteImport } from './routes/_authenticated/admin.photos'
 import { Route as AuthenticatedAdminShowsRouteImport } from './routes/_authenticated/admin.shows'
+import { Route as AuthenticatedAdminTelegramRouteImport } from './routes/_authenticated/admin.telegram'
 import { Route as AuthenticatedAdminTicketsRouteImport } from './routes/_authenticated/admin.tickets'
 import { Route as EnLegalOfferRouteImport } from './routes/en.legal.offer'
 import { Route as EnLegalPrivacyRouteImport } from './routes/en.legal.privacy'
@@ -32,6 +33,7 @@ import { Route as RuLegalOfferRouteImport } from './routes/ru.legal.offer'
 import { Route as RuLegalPrivacyRouteImport } from './routes/ru.legal.privacy'
 import { Route as RuLegalTermsRouteImport } from './routes/ru.legal.terms'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
+import { Route as ApiPublicTelegramWebhookRouteImport } from './routes/api/public/telegram/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -112,6 +114,12 @@ const AuthenticatedAdminShowsRoute = AuthenticatedAdminShowsRouteImport.update({
   path: '/shows',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminTelegramRoute =
+  AuthenticatedAdminTelegramRouteImport.update({
+    id: '/telegram',
+    path: '/telegram',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminTicketsRoute =
   AuthenticatedAdminTicketsRouteImport.update({
     id: '/tickets',
@@ -153,6 +161,12 @@ const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
   path: '/api/public/media/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicTelegramWebhookRoute =
+  ApiPublicTelegramWebhookRouteImport.update({
+    id: '/api/public/telegram/webhook',
+    path: '/api/public/telegram/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -168,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/admin/litter': typeof AuthenticatedAdminLitterRoute
   '/admin/photos': typeof AuthenticatedAdminPhotosRoute
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/admin/telegram': typeof AuthenticatedAdminTelegramRoute
   '/admin/tickets': typeof AuthenticatedAdminTicketsRoute
   '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
@@ -177,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -191,6 +207,7 @@ export interface FileRoutesByTo {
   '/admin/litter': typeof AuthenticatedAdminLitterRoute
   '/admin/photos': typeof AuthenticatedAdminPhotosRoute
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/admin/telegram': typeof AuthenticatedAdminTelegramRoute
   '/admin/tickets': typeof AuthenticatedAdminTicketsRoute
   '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
@@ -200,6 +217,7 @@ export interface FileRoutesByTo {
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -217,6 +235,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/litter': typeof AuthenticatedAdminLitterRoute
   '/_authenticated/admin/photos': typeof AuthenticatedAdminPhotosRoute
   '/_authenticated/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/_authenticated/admin/telegram': typeof AuthenticatedAdminTelegramRoute
   '/_authenticated/admin/tickets': typeof AuthenticatedAdminTicketsRoute
   '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
@@ -226,6 +245,7 @@ export interface FileRoutesById {
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -243,6 +263,7 @@ export interface FileRouteTypes {
     | '/admin/litter'
     | '/admin/photos'
     | '/admin/shows'
+    | '/admin/telegram'
     | '/admin/tickets'
     | '/en/legal/offer'
     | '/en/legal/privacy'
@@ -252,6 +273,7 @@ export interface FileRouteTypes {
     | '/ru/legal/terms'
     | '/admin/'
     | '/api/public/media/$'
+    | '/api/public/telegram/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -266,6 +288,7 @@ export interface FileRouteTypes {
     | '/admin/litter'
     | '/admin/photos'
     | '/admin/shows'
+    | '/admin/telegram'
     | '/admin/tickets'
     | '/en/legal/offer'
     | '/en/legal/privacy'
@@ -275,6 +298,7 @@ export interface FileRouteTypes {
     | '/ru/legal/terms'
     | '/admin'
     | '/api/public/media/$'
+    | '/api/public/telegram/webhook'
   id:
     | '__root__'
     | '/'
@@ -291,6 +315,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/litter'
     | '/_authenticated/admin/photos'
     | '/_authenticated/admin/shows'
+    | '/_authenticated/admin/telegram'
     | '/_authenticated/admin/tickets'
     | '/en/legal/offer'
     | '/en/legal/privacy'
@@ -300,6 +325,7 @@ export interface FileRouteTypes {
     | '/ru/legal/terms'
     | '/_authenticated/admin/'
     | '/api/public/media/$'
+    | '/api/public/telegram/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -316,6 +342,7 @@ export interface RootRouteChildren {
   RuLegalPrivacyRoute: typeof RuLegalPrivacyRoute
   RuLegalTermsRoute: typeof RuLegalTermsRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
+  ApiPublicTelegramWebhookRoute: typeof ApiPublicTelegramWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -425,6 +452,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminShowsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/telegram': {
+      id: '/_authenticated/admin/telegram'
+      path: '/telegram'
+      fullPath: '/admin/telegram'
+      preLoaderRoute: typeof AuthenticatedAdminTelegramRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/tickets': {
       id: '/_authenticated/admin/tickets'
       path: '/tickets'
@@ -481,6 +515,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/telegram/webhook': {
+      id: '/api/public/telegram/webhook'
+      path: '/api/public/telegram/webhook'
+      fullPath: '/api/public/telegram/webhook'
+      preLoaderRoute: typeof ApiPublicTelegramWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -492,6 +533,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminLitterRoute: typeof AuthenticatedAdminLitterRoute
   AuthenticatedAdminPhotosRoute: typeof AuthenticatedAdminPhotosRoute
   AuthenticatedAdminShowsRoute: typeof AuthenticatedAdminShowsRoute
+  AuthenticatedAdminTelegramRoute: typeof AuthenticatedAdminTelegramRoute
   AuthenticatedAdminTicketsRoute: typeof AuthenticatedAdminTicketsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
@@ -504,6 +546,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminLitterRoute: AuthenticatedAdminLitterRoute,
   AuthenticatedAdminPhotosRoute: AuthenticatedAdminPhotosRoute,
   AuthenticatedAdminShowsRoute: AuthenticatedAdminShowsRoute,
+  AuthenticatedAdminTelegramRoute: AuthenticatedAdminTelegramRoute,
   AuthenticatedAdminTicketsRoute: AuthenticatedAdminTicketsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
@@ -536,6 +579,7 @@ const rootRouteChildren: RootRouteChildren = {
   RuLegalPrivacyRoute: RuLegalPrivacyRoute,
   RuLegalTermsRoute: RuLegalTermsRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
+  ApiPublicTelegramWebhookRoute: ApiPublicTelegramWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

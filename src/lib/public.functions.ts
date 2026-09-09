@@ -99,6 +99,20 @@ export const submitEnquiry = createServerFn({ method: "POST" })
       console.error("enquiry insert failed", error.message);
       return { ok: false as const };
     }
+
+    try {
+      const { notifyTelegram, enquiryNotification } = await import("./telegram.server");
+      const contact = [data.email, data.preferredContact, data.handle].filter(Boolean).join(" · ");
+      const subject = [data.purpose, data.timing, data.whyNorwich, data.message]
+        .filter(Boolean)
+        .join(" — ");
+      await notifyTelegram(
+        enquiryNotification({ name: data.name, contact, subject, locale: data.locale || "ru" }),
+      );
+    } catch (e) {
+      console.error("telegram enquiry notification failed", (e as Error).message);
+    }
+
     return { ok: true as const };
   });
 

@@ -36,6 +36,13 @@
       "when": 1788987966775,
       "tag": "0004_ai_assistant_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1788990738062,
+      "tag": "0005_telegram_subscribers",
+      "breakpoints": true
     }
   ]
 }

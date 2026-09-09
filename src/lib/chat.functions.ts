@@ -307,6 +307,22 @@ async function createTicket(supabase: SupabaseClient<Database>, sessionId: strin
     console.error("ticket insert failed", error.message);
     throw new Error("Failed to create ticket");
   }
+
+  try {
+    const session = await getSession(supabase, sessionId);
+    const history = await getHistory(supabase, sessionId);
+    const lastUser = [...history].reverse().find((m) => m.role === "user");
+    const { notifyTelegram, chatNotification } = await import("./telegram.server");
+    await notifyTelegram(
+      chatNotification({
+        name: session?.name ?? "—",
+        contact: session?.phone ?? "—",
+        subject: `${reason}${lastUser ? `\nСообщение: ${lastUser.content}` : ""}\nТикет ${number}`,
+      }),
+    );
+  } catch (e) {
+    console.error("telegram ticket notification failed", (e as Error).message);
+  }
 }
 
 // Admin functions
