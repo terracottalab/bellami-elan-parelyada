@@ -101,7 +101,7 @@ export const bodyHtml = `
         <div class="btn-row show-career-cta">
           <a class="btn btn-line" href="/ru/shows">Все выставочные результаты →</a>
         </div>
-        <p class="caption">Полный список выставок, оценок, экспертов и сертификатов доступен на основном сайте.</p>
+        <p class="caption">Полный список выставок, оценок, экспертов и сертификатов доступен здесь по кнопке.</p>
       </div>
       <div class="media-frame show-career-photo"><img src="${IMG["pari-show-career.jpg"]}" alt="Bellami-Elan Parelyada на выставке" /></div>
     </div></section>
