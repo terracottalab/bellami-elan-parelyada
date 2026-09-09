@@ -29,6 +29,13 @@
       "when": 1788985740035,
       "tag": "0003_site_content_photos_litter",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1788987966775,
+      "tag": "0004_ai_assistant_schema",
+      "breakpoints": true
     }
   ]
 }
