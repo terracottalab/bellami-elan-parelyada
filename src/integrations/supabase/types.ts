@@ -165,25 +165,52 @@ export type Database = {
       }
       litters: {
         Row: {
+          body_en: string | null
+          body_ru: string | null
           created_at: string
+          headline_en: string | null
+          headline_ru: string | null
           id: string
+          is_published: boolean
           name: string
           notes: string | null
           planned_date: string | null
+          status: string
+          timing_label_en: string | null
+          timing_label_ru: string | null
+          updated_at: string
         }
         Insert: {
+          body_en?: string | null
+          body_ru?: string | null
           created_at?: string
+          headline_en?: string | null
+          headline_ru?: string | null
           id?: string
+          is_published?: boolean
           name: string
           notes?: string | null
           planned_date?: string | null
+          status?: string
+          timing_label_en?: string | null
+          timing_label_ru?: string | null
+          updated_at?: string
         }
         Update: {
+          body_en?: string | null
+          body_ru?: string | null
           created_at?: string
+          headline_en?: string | null
+          headline_ru?: string | null
           id?: string
+          is_published?: boolean
           name?: string
           notes?: string | null
           planned_date?: string | null
+          status?: string
+          timing_label_en?: string | null
+          timing_label_ru?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -274,6 +301,60 @@ export type Database = {
           result?: string | null
           show_date?: string
           title?: string
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          id: string
+          key: string
+          locale: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          id?: string
+          key: string
+          locale: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          id?: string
+          key?: string
+          locale?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
+      site_photos: {
+        Row: {
+          alt: string | null
+          caption: string | null
+          created_at: string
+          id: string
+          slot: string
+          sort_order: number
+          url: string
+        }
+        Insert: {
+          alt?: string | null
+          caption?: string | null
+          created_at?: string
+          id?: string
+          slot: string
+          sort_order?: number
+          url: string
+        }
+        Update: {
+          alt?: string | null
+          caption?: string | null
+          created_at?: string
+          id?: string
+          slot?: string
+          sort_order?: number
+          url?: string
         }
         Relationships: []
       }

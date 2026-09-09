@@ -48,6 +48,9 @@ function EnquiriesPage() {
   const updateStatus = useServerFn(setEnquiryStatus);
   const [openId, setOpenId] = useState<string | null>(null);
   const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["admin", "enquiries"],
@@ -63,7 +66,17 @@ function EnquiriesPage() {
   if (isLoading) return <p className="text-sm text-muted-foreground">Загружаем заявки…</p>;
   if (error) return <p className="text-sm text-destructive">{(error as Error).message}</p>;
 
-  const rows = (data ?? []).filter((row) => filter === "all" || row.status === filter);
+  const term = search.trim().toLowerCase();
+  const rows = (data ?? []).filter((row) => {
+    if (filter !== "all" && row.status !== filter) return false;
+    const day = row.created_at.slice(0, 10);
+    if (from && day < from) return false;
+    if (to && day > to) return false;
+    if (!term) return true;
+    return [row.name, row.email, row.place, row.handle ?? ""].some((value) =>
+      value.toLowerCase().includes(term),
+    );
+  });
 
   function exportCsv() {
     const header = [
@@ -125,6 +138,30 @@ function EnquiriesPage() {
             </option>
           ))}
         </select>
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Поиск по имени, e-mail, городу"
+          className="rounded-md border border-input bg-background px-3 py-1.5 text-sm"
+        />
+        <label className="flex items-center gap-1 text-sm text-muted-foreground">
+          с
+          <input
+            type="date"
+            value={from}
+            onChange={(e) => setFrom(e.target.value)}
+            className="rounded-md border border-input bg-background px-2 py-1.5 text-sm"
+          />
+        </label>
+        <label className="flex items-center gap-1 text-sm text-muted-foreground">
+          по
+          <input
+            type="date"
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
+            className="rounded-md border border-input bg-background px-2 py-1.5 text-sm"
+          />
+        </label>
         <button
           type="button"
           onClick={exportCsv}
@@ -135,7 +172,7 @@ function EnquiriesPage() {
       </div>
 
       {rows.length === 0 ? (
-        <p className="text-sm text-muted-foreground">Заявок пока нет.</p>
+        <p className="text-sm text-muted-foreground">Заявок по этим условиям нет.</p>
       ) : (
         <ul className="space-y-3">
           {rows.map((row) => (

@@ -17,8 +17,11 @@ import { Route as EnIndexRouteImport } from './routes/en.index'
 import { Route as EnShowsRouteImport } from './routes/en.shows'
 import { Route as RuShowsRouteImport } from './routes/ru.shows'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminContentRouteImport } from './routes/_authenticated/admin.content'
 import { Route as AuthenticatedAdminEnquiriesRouteImport } from './routes/_authenticated/admin.enquiries'
 import { Route as AuthenticatedAdminFinanceRouteImport } from './routes/_authenticated/admin.finance'
+import { Route as AuthenticatedAdminLitterRouteImport } from './routes/_authenticated/admin.litter'
+import { Route as AuthenticatedAdminPhotosRouteImport } from './routes/_authenticated/admin.photos'
 import { Route as AuthenticatedAdminShowsRouteImport } from './routes/_authenticated/admin.shows'
 import { Route as EnLegalOfferRouteImport } from './routes/en.legal.offer'
 import { Route as EnLegalPrivacyRouteImport } from './routes/en.legal.privacy'
@@ -26,6 +29,7 @@ import { Route as EnLegalTermsRouteImport } from './routes/en.legal.terms'
 import { Route as RuLegalOfferRouteImport } from './routes/ru.legal.offer'
 import { Route as RuLegalPrivacyRouteImport } from './routes/ru.legal.privacy'
 import { Route as RuLegalTermsRouteImport } from './routes/ru.legal.terms'
+import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -66,6 +70,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminContentRoute =
+  AuthenticatedAdminContentRouteImport.update({
+    id: '/content',
+    path: '/content',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminEnquiriesRoute =
   AuthenticatedAdminEnquiriesRouteImport.update({
     id: '/enquiries',
@@ -76,6 +86,18 @@ const AuthenticatedAdminFinanceRoute =
   AuthenticatedAdminFinanceRouteImport.update({
     id: '/finance',
     path: '/finance',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminLitterRoute =
+  AuthenticatedAdminLitterRouteImport.update({
+    id: '/litter',
+    path: '/litter',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminPhotosRoute =
+  AuthenticatedAdminPhotosRouteImport.update({
+    id: '/photos',
+    path: '/photos',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminShowsRoute = AuthenticatedAdminShowsRouteImport.update({
@@ -113,6 +135,11 @@ const RuLegalTermsRoute = RuLegalTermsRouteImport.update({
   path: '/ru/legal/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
+  id: '/api/public/media/$',
+  path: '/api/public/media/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -121,8 +148,11 @@ export interface FileRoutesByFullPath {
   '/en/shows': typeof EnShowsRoute
   '/ru/shows': typeof RuShowsRoute
   '/en/': typeof EnIndexRoute
+  '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/admin/finance': typeof AuthenticatedAdminFinanceRoute
+  '/admin/litter': typeof AuthenticatedAdminLitterRoute
+  '/admin/photos': typeof AuthenticatedAdminPhotosRoute
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
   '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
@@ -131,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -138,8 +169,11 @@ export interface FileRoutesByTo {
   '/en/shows': typeof EnShowsRoute
   '/ru/shows': typeof RuShowsRoute
   '/en': typeof EnIndexRoute
+  '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/admin/finance': typeof AuthenticatedAdminFinanceRoute
+  '/admin/litter': typeof AuthenticatedAdminLitterRoute
+  '/admin/photos': typeof AuthenticatedAdminPhotosRoute
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
   '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
@@ -148,6 +182,7 @@ export interface FileRoutesByTo {
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -158,8 +193,11 @@ export interface FileRoutesById {
   '/en/shows': typeof EnShowsRoute
   '/ru/shows': typeof RuShowsRoute
   '/en/': typeof EnIndexRoute
+  '/_authenticated/admin/content': typeof AuthenticatedAdminContentRoute
   '/_authenticated/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/_authenticated/admin/finance': typeof AuthenticatedAdminFinanceRoute
+  '/_authenticated/admin/litter': typeof AuthenticatedAdminLitterRoute
+  '/_authenticated/admin/photos': typeof AuthenticatedAdminPhotosRoute
   '/_authenticated/admin/shows': typeof AuthenticatedAdminShowsRoute
   '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
@@ -168,6 +206,7 @@ export interface FileRoutesById {
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -178,8 +217,11 @@ export interface FileRouteTypes {
     | '/en/shows'
     | '/ru/shows'
     | '/en/'
+    | '/admin/content'
     | '/admin/enquiries'
     | '/admin/finance'
+    | '/admin/litter'
+    | '/admin/photos'
     | '/admin/shows'
     | '/en/legal/offer'
     | '/en/legal/privacy'
@@ -188,6 +230,7 @@ export interface FileRouteTypes {
     | '/ru/legal/privacy'
     | '/ru/legal/terms'
     | '/admin/'
+    | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -195,8 +238,11 @@ export interface FileRouteTypes {
     | '/en/shows'
     | '/ru/shows'
     | '/en'
+    | '/admin/content'
     | '/admin/enquiries'
     | '/admin/finance'
+    | '/admin/litter'
+    | '/admin/photos'
     | '/admin/shows'
     | '/en/legal/offer'
     | '/en/legal/privacy'
@@ -205,6 +251,7 @@ export interface FileRouteTypes {
     | '/ru/legal/privacy'
     | '/ru/legal/terms'
     | '/admin'
+    | '/api/public/media/$'
   id:
     | '__root__'
     | '/'
@@ -214,8 +261,11 @@ export interface FileRouteTypes {
     | '/en/shows'
     | '/ru/shows'
     | '/en/'
+    | '/_authenticated/admin/content'
     | '/_authenticated/admin/enquiries'
     | '/_authenticated/admin/finance'
+    | '/_authenticated/admin/litter'
+    | '/_authenticated/admin/photos'
     | '/_authenticated/admin/shows'
     | '/en/legal/offer'
     | '/en/legal/privacy'
@@ -224,6 +274,7 @@ export interface FileRouteTypes {
     | '/ru/legal/privacy'
     | '/ru/legal/terms'
     | '/_authenticated/admin/'
+    | '/api/public/media/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -239,6 +290,7 @@ export interface RootRouteChildren {
   RuLegalOfferRoute: typeof RuLegalOfferRoute
   RuLegalPrivacyRoute: typeof RuLegalPrivacyRoute
   RuLegalTermsRoute: typeof RuLegalTermsRoute
+  ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -299,6 +351,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/content': {
+      id: '/_authenticated/admin/content'
+      path: '/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AuthenticatedAdminContentRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/enquiries': {
       id: '/_authenticated/admin/enquiries'
       path: '/enquiries'
@@ -311,6 +370,20 @@ declare module '@tanstack/react-router' {
       path: '/finance'
       fullPath: '/admin/finance'
       preLoaderRoute: typeof AuthenticatedAdminFinanceRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/litter': {
+      id: '/_authenticated/admin/litter'
+      path: '/litter'
+      fullPath: '/admin/litter'
+      preLoaderRoute: typeof AuthenticatedAdminLitterRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/photos': {
+      id: '/_authenticated/admin/photos'
+      path: '/photos'
+      fullPath: '/admin/photos'
+      preLoaderRoute: typeof AuthenticatedAdminPhotosRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/shows': {
@@ -362,19 +435,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RuLegalTermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/media/$': {
+      id: '/api/public/media/$'
+      path: '/api/public/media/$'
+      fullPath: '/api/public/media/$'
+      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminContentRoute: typeof AuthenticatedAdminContentRoute
   AuthenticatedAdminEnquiriesRoute: typeof AuthenticatedAdminEnquiriesRoute
   AuthenticatedAdminFinanceRoute: typeof AuthenticatedAdminFinanceRoute
+  AuthenticatedAdminLitterRoute: typeof AuthenticatedAdminLitterRoute
+  AuthenticatedAdminPhotosRoute: typeof AuthenticatedAdminPhotosRoute
   AuthenticatedAdminShowsRoute: typeof AuthenticatedAdminShowsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminContentRoute: AuthenticatedAdminContentRoute,
   AuthenticatedAdminEnquiriesRoute: AuthenticatedAdminEnquiriesRoute,
   AuthenticatedAdminFinanceRoute: AuthenticatedAdminFinanceRoute,
+  AuthenticatedAdminLitterRoute: AuthenticatedAdminLitterRoute,
+  AuthenticatedAdminPhotosRoute: AuthenticatedAdminPhotosRoute,
   AuthenticatedAdminShowsRoute: AuthenticatedAdminShowsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
@@ -406,6 +492,7 @@ const rootRouteChildren: RootRouteChildren = {
   RuLegalOfferRoute: RuLegalOfferRoute,
   RuLegalPrivacyRoute: RuLegalPrivacyRoute,
   RuLegalTermsRoute: RuLegalTermsRoute,
+  ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

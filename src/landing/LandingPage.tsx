@@ -1,15 +1,25 @@
 import { useEffect, useRef } from "react";
 
 import { initLanding } from "./behavior";
+import { applyOverrides, type SiteOverrides } from "./overrides";
 import { submitEnquiry, trackPageView } from "@/lib/public.functions";
 import "./landing.css";
 
-export function LandingPage({ html, locale }: { html: string; locale: "ru" | "en" }) {
+export function LandingPage({
+  html,
+  locale,
+  overrides,
+}: {
+  html: string;
+  locale: "ru" | "en";
+  overrides?: SiteOverrides | null;
+}) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const root = ref.current;
     if (!root) return;
+    applyOverrides(root, overrides ?? null, locale);
     const cleanup = initLanding(root, {
       onSubmit: async (values) =>
         submitEnquiry({
