@@ -1544,28 +1544,6 @@ html, .landing{
   object-fit: cover;
 }
 
-.landing .diploma-row{
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  overflow: visible;
-}
-
-.landing .diploma-card{
-  display: grid;
-  grid-template-rows: auto auto;
-  max-width: none;
-  min-width: 0;
-}
-
-.landing .diploma-frame{
-  height: auto;
-  aspect-ratio: 3 / 4;
-}
-
-.landing .diploma-label{
-  text-align: center;
-}
 
 .landing .enquiry-band .btn-primary{
   background: var(--champagne);
@@ -1590,13 +1568,6 @@ html, .landing{
   margin: 0;
 }
 
-.landing .pedigree-tree{
-  align-items: start;
-}
-
-.landing .pedigree-col{
-  align-content: start;
-}
 
 @media (max-width: 767px) {
   .landing .hero{
