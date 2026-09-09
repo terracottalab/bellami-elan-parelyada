@@ -72,19 +72,19 @@ const AuthenticatedAdminShowsRoute = AuthenticatedAdminShowsRouteImport.update({
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
 const EnLegalOfferRoute = EnLegalOfferRouteImport.update({
-  id: '/legal/offer',
-  path: '/legal/offer',
-  getParentRoute: () => EnRoute,
+  id: '/en/legal/offer',
+  path: '/en/legal/offer',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const EnLegalPrivacyRoute = EnLegalPrivacyRouteImport.update({
-  id: '/legal/privacy',
-  path: '/legal/privacy',
-  getParentRoute: () => EnRoute,
+  id: '/en/legal/privacy',
+  path: '/en/legal/privacy',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const EnLegalTermsRoute = EnLegalTermsRouteImport.update({
-  id: '/legal/terms',
-  path: '/legal/terms',
-  getParentRoute: () => EnRoute,
+  id: '/en/legal/terms',
+  path: '/en/legal/terms',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const RuLegalOfferRoute = RuLegalOfferRouteImport.update({
   id: '/ru/legal/offer',
@@ -207,6 +207,9 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   EnIndexRoute: typeof EnIndexRoute
+  EnLegalOfferRoute: typeof EnLegalOfferRoute
+  EnLegalPrivacyRoute: typeof EnLegalPrivacyRoute
+  EnLegalTermsRoute: typeof EnLegalTermsRoute
   RuLegalOfferRoute: typeof RuLegalOfferRoute
   RuLegalPrivacyRoute: typeof RuLegalPrivacyRoute
   RuLegalTermsRoute: typeof RuLegalTermsRoute
@@ -279,24 +282,24 @@ declare module '@tanstack/react-router' {
     }
     '/en/legal/offer': {
       id: '/en/legal/offer'
-      path: '/legal/offer'
+      path: '/en/legal/offer'
       fullPath: '/en/legal/offer'
       preLoaderRoute: typeof EnLegalOfferRouteImport
-      parentRoute: typeof EnRoute
+      parentRoute: typeof rootRouteImport
     }
     '/en/legal/privacy': {
       id: '/en/legal/privacy'
-      path: '/legal/privacy'
+      path: '/en/legal/privacy'
       fullPath: '/en/legal/privacy'
       preLoaderRoute: typeof EnLegalPrivacyRouteImport
-      parentRoute: typeof EnRoute
+      parentRoute: typeof rootRouteImport
     }
     '/en/legal/terms': {
       id: '/en/legal/terms'
-      path: '/legal/terms'
+      path: '/en/legal/terms'
       fullPath: '/en/legal/terms'
       preLoaderRoute: typeof EnLegalTermsRouteImport
-      parentRoute: typeof EnRoute
+      parentRoute: typeof rootRouteImport
     }
     '/ru/legal/offer': {
       id: '/ru/legal/offer'
@@ -355,6 +358,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   EnIndexRoute: EnIndexRoute,
+  EnLegalOfferRoute: EnLegalOfferRoute,
+  EnLegalPrivacyRoute: EnLegalPrivacyRoute,
+  EnLegalTermsRoute: EnLegalTermsRoute,
   RuLegalOfferRoute: RuLegalOfferRoute,
   RuLegalPrivacyRoute: RuLegalPrivacyRoute,
   RuLegalTermsRoute: RuLegalTermsRoute,
