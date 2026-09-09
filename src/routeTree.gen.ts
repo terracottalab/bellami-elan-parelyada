@@ -24,6 +24,7 @@ import { Route as AuthenticatedAdminFinanceRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminLitterRouteImport } from './routes/_authenticated/admin.litter'
 import { Route as AuthenticatedAdminPhotosRouteImport } from './routes/_authenticated/admin.photos'
 import { Route as AuthenticatedAdminShowsRouteImport } from './routes/_authenticated/admin.shows'
+import { Route as AuthenticatedAdminTicketsRouteImport } from './routes/_authenticated/admin.tickets'
 import { Route as EnLegalOfferRouteImport } from './routes/en.legal.offer'
 import { Route as EnLegalPrivacyRouteImport } from './routes/en.legal.privacy'
 import { Route as EnLegalTermsRouteImport } from './routes/en.legal.terms'
@@ -111,6 +112,12 @@ const AuthenticatedAdminShowsRoute = AuthenticatedAdminShowsRouteImport.update({
   path: '/shows',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminTicketsRoute =
+  AuthenticatedAdminTicketsRouteImport.update({
+    id: '/tickets',
+    path: '/tickets',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const EnLegalOfferRoute = EnLegalOfferRouteImport.update({
   id: '/en/legal/offer',
   path: '/en/legal/offer',
@@ -161,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/admin/litter': typeof AuthenticatedAdminLitterRoute
   '/admin/photos': typeof AuthenticatedAdminPhotosRoute
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/admin/tickets': typeof AuthenticatedAdminTicketsRoute
   '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
   '/en/legal/terms': typeof EnLegalTermsRoute
@@ -183,6 +191,7 @@ export interface FileRoutesByTo {
   '/admin/litter': typeof AuthenticatedAdminLitterRoute
   '/admin/photos': typeof AuthenticatedAdminPhotosRoute
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/admin/tickets': typeof AuthenticatedAdminTicketsRoute
   '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
   '/en/legal/terms': typeof EnLegalTermsRoute
@@ -208,6 +217,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/litter': typeof AuthenticatedAdminLitterRoute
   '/_authenticated/admin/photos': typeof AuthenticatedAdminPhotosRoute
   '/_authenticated/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/_authenticated/admin/tickets': typeof AuthenticatedAdminTicketsRoute
   '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
   '/en/legal/terms': typeof EnLegalTermsRoute
@@ -233,6 +243,7 @@ export interface FileRouteTypes {
     | '/admin/litter'
     | '/admin/photos'
     | '/admin/shows'
+    | '/admin/tickets'
     | '/en/legal/offer'
     | '/en/legal/privacy'
     | '/en/legal/terms'
@@ -255,6 +266,7 @@ export interface FileRouteTypes {
     | '/admin/litter'
     | '/admin/photos'
     | '/admin/shows'
+    | '/admin/tickets'
     | '/en/legal/offer'
     | '/en/legal/privacy'
     | '/en/legal/terms'
@@ -279,6 +291,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/litter'
     | '/_authenticated/admin/photos'
     | '/_authenticated/admin/shows'
+    | '/_authenticated/admin/tickets'
     | '/en/legal/offer'
     | '/en/legal/privacy'
     | '/en/legal/terms'
@@ -412,6 +425,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminShowsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/tickets': {
+      id: '/_authenticated/admin/tickets'
+      path: '/tickets'
+      fullPath: '/admin/tickets'
+      preLoaderRoute: typeof AuthenticatedAdminTicketsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/en/legal/offer': {
       id: '/en/legal/offer'
       path: '/en/legal/offer'
@@ -472,6 +492,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminLitterRoute: typeof AuthenticatedAdminLitterRoute
   AuthenticatedAdminPhotosRoute: typeof AuthenticatedAdminPhotosRoute
   AuthenticatedAdminShowsRoute: typeof AuthenticatedAdminShowsRoute
+  AuthenticatedAdminTicketsRoute: typeof AuthenticatedAdminTicketsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
@@ -483,6 +504,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminLitterRoute: AuthenticatedAdminLitterRoute,
   AuthenticatedAdminPhotosRoute: AuthenticatedAdminPhotosRoute,
   AuthenticatedAdminShowsRoute: AuthenticatedAdminShowsRoute,
+  AuthenticatedAdminTicketsRoute: AuthenticatedAdminTicketsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
