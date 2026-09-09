@@ -59,11 +59,22 @@ function DashboardPage() {
           hint={`За 7 дней: ${data.views7} · уникальных: ${data.visitors30}`}
         />
         <Stat label="Выставки" value={String(data.showsTotal)} />
-        <Stat
-          label="Баланс"
-          value={money(data.balance, data.currency)}
-          hint={`Доходы ${money(data.income, data.currency)} · расходы ${money(data.expense, data.currency)}`}
-        />
+        <div className="rounded-xl border border-border bg-card p-4">
+          <p className="text-sm text-muted-foreground">Баланс</p>
+          {(data.byCurrency?.length ? data.byCurrency : [
+            { currency: data.currency, income: 0, expense: 0, balance: 0 },
+          ]).map((row) => (
+            <div key={row.currency} className="mt-1">
+              <p className="text-2xl font-semibold text-foreground">
+                {money(row.balance, row.currency)}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Доходы {money(row.income, row.currency)} · расходы {money(row.expense, row.currency)}
+              </p>
+            </div>
+          ))}
+        </div>
+
       </section>
 
       <section className="rounded-xl border border-border bg-card p-4">

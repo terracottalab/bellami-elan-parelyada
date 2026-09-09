@@ -74,13 +74,22 @@ export const getDashboard = createServerFn({ method: "GET" })
       amount: number | string;
       currency: string;
     }>;
-    let income = 0;
-    let expense = 0;
+    const totals = new Map<string, { income: number; expense: number }>();
     entries.forEach((entry) => {
       const value = Number(entry.amount) || 0;
-      if (entry.direction === "income") income += value;
-      else expense += value;
+      const code = entry.currency || "EUR";
+      const bucket = totals.get(code) ?? { income: 0, expense: 0 };
+      if (entry.direction === "income") bucket.income += value;
+      else bucket.expense += value;
+      totals.set(code, bucket);
     });
+    const byCurrency = [...totals.entries()].map(([currency, t]) => ({
+      currency,
+      income: t.income,
+      expense: t.expense,
+      balance: t.income - t.expense,
+    }));
+    const primary = byCurrency[0] ?? { currency: "EUR", income: 0, expense: 0, balance: 0 };
 
     return {
       enquiriesTotal: enq.count ?? 0,
@@ -90,10 +99,12 @@ export const getDashboard = createServerFn({ method: "GET" })
       views7: views7.count ?? 0,
       visitors30: visitors.size,
       showsTotal: shows.count ?? 0,
-      income,
-      expense,
-      balance: income - expense,
-      currency: entries[0]?.currency ?? "EUR",
+      income: primary.income,
+      expense: primary.expense,
+      balance: primary.balance,
+      currency: primary.currency,
+      byCurrency,
+
       trafficSeries: [...byDay.entries()].map(([date, views]) => ({ date, views })),
       topPages: [...byPath.entries()]
         .sort((a, b) => b[1] - a[1])
