@@ -21,6 +21,8 @@ export const Route = createFileRoute("/_authenticated/admin")({
 const NAV = [
   { to: "/admin", label: "Сводка", exact: true },
   { to: "/admin/enquiries", label: "Заявки" },
+  { to: "/admin/ai", label: "AI-чаты" },
+  { to: "/admin/tickets", label: "Тикеты" },
   { to: "/admin/litter", label: "Помёт" },
   { to: "/admin/photos", label: "Фотографии" },
   { to: "/admin/content", label: "Тексты сайта" },
