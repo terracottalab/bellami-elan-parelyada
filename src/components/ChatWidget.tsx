@@ -99,7 +99,6 @@ export function ChatWidget() {
   const startSession = useServerFn(startChatSession);
   const sendMessage = useServerFn(sendChatMessage);
   const createTicket = useServerFn(createTicketFromChat);
-  const createEnquiry = useServerFn(createEnquiryFromChat);
 
   const t = copy[locale];
 
