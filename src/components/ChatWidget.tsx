@@ -365,7 +365,7 @@ export function ChatWidget() {
                 </div>
 
                 <PromptInput
-                  onSubmit={(value) => submit(value)}
+                  onSubmit={(message) => submit(message.text)}
                   className="chat-composer"
                 >
                   <PromptInputTextarea
