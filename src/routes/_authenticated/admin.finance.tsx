@@ -64,21 +64,37 @@ function FinancePage() {
   });
 
   const entries = data ?? [];
-  const income = entries
+  const view = form.currency;
+  const scoped = entries.filter((e) => e.currency === view);
+  const income = scoped
     .filter((e) => e.direction === "income")
     .reduce((sum, e) => sum + Number(e.amount), 0);
-  const expense = entries
+  const expense = scoped
     .filter((e) => e.direction === "expense")
     .reduce((sum, e) => sum + Number(e.amount), 0);
-  const currency = entries[0]?.currency ?? form.currency;
   const fmt = (value: number) =>
-    new Intl.NumberFormat("ru-RU", { style: "currency", currency, maximumFractionDigits: 0 }).format(
-      value,
-    );
+    new Intl.NumberFormat("ru-RU", { style: "currency", currency: view, maximumFractionDigits: 0 })
+      .format(value);
 
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-semibold text-foreground">Финансы</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-semibold text-foreground">Финансы</h1>
+        <label className="flex items-center gap-2 text-sm">
+          <span className="text-muted-foreground">Итоги в валюте</span>
+          <select
+            value={view}
+            onChange={(e) => setForm({ ...form, currency: e.target.value })}
+            className="rounded-md border border-input bg-background px-3 py-1.5 text-sm"
+          >
+            {CURRENCIES.map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
 
       <section className="grid gap-4 sm:grid-cols-3">
         <div className="rounded-xl border border-border bg-card p-4">
@@ -94,6 +110,7 @@ function FinancePage() {
           <p className="mt-1 text-2xl font-semibold text-foreground">{fmt(income - expense)}</p>
         </div>
       </section>
+
 
       <section className="rounded-xl border border-border bg-card p-4">
         <h2 className="text-base font-semibold text-foreground">Новая операция</h2>
