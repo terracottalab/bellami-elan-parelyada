@@ -387,6 +387,8 @@ export const bodyHtml = `
         <span class="status">Planning</span>
         <h3 style="margin-top:.8rem">Bellami-Elan Parelyada × To Be Announced</h3>
         <p>Планируется на 2027 год</p>
+        <p class="lede">Партнёр пока не объявлен. Когда вязка будет подтверждена, информация появится здесь, а те, кто оставил заявку, узнают первыми.</p>
+        <div class="btn-row"><a class="btn btn-primary" href="#puppy-application">Оставить заявку</a></div>
     </div></section>
     <section class="section" id="breed"><div class="container">
         <p class="eyebrow">Порода</p>
@@ -457,7 +459,7 @@ export const bodyHtml = `
     <section class="section"><div class="container">
       <h2>Следить за историей Пари</h2>
       <p class="lede">Ссылки на Telegram, Instagram, VK и Facebook появятся, когда будут подтверждены.</p>
-      <div class="social-list"><span class="muted">Telegram — Скоро</span><span class="muted">Instagram — Скоро</span></div>
+      
     </div></section>
   </main>
   <footer class="site-footer">
@@ -483,7 +485,7 @@ export const bodyHtml = `
       <div class="footer-meta">
         <span>© 2026 Bellami-Elan Parelyada</span>
         <span><a href="/ru/legal/privacy">Конфиденциальность</a> · <a href="/ru/legal/terms">Условия</a> · <a href="/ru/legal/offer">Договор оферты</a></span>
-        <span>Юридические тексты будут предоставлены до публичного запуска.</span>
+        
       </div>
     </div>
   </footer>
