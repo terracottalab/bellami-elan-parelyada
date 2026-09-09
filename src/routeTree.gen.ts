@@ -10,33 +10,181 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as EnRouteImport } from './routes/en'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminEnquiriesRouteImport } from './routes/_authenticated/admin.enquiries'
+import { Route as AuthenticatedAdminFinanceRouteImport } from './routes/_authenticated/admin.finance'
+import { Route as AuthenticatedAdminShowsRouteImport } from './routes/_authenticated/admin.shows'
+import { Route as EnLegalPrivacyRouteImport } from './routes/en.legal.privacy'
+import { Route as EnLegalTermsRouteImport } from './routes/en.legal.terms'
+import { Route as RuLegalPrivacyRouteImport } from './routes/ru.legal.privacy'
+import { Route as RuLegalTermsRouteImport } from './routes/ru.legal.terms'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnRoute = EnRouteImport.update({
+  id: '/en',
+  path: '/en',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminEnquiriesRoute =
+  AuthenticatedAdminEnquiriesRouteImport.update({
+    id: '/enquiries',
+    path: '/enquiries',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminFinanceRoute =
+  AuthenticatedAdminFinanceRouteImport.update({
+    id: '/finance',
+    path: '/finance',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminShowsRoute = AuthenticatedAdminShowsRouteImport.update({
+  id: '/shows',
+  path: '/shows',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const EnLegalPrivacyRoute = EnLegalPrivacyRouteImport.update({
+  id: '/legal/privacy',
+  path: '/legal/privacy',
+  getParentRoute: () => EnRoute,
+} as any)
+const EnLegalTermsRoute = EnLegalTermsRouteImport.update({
+  id: '/legal/terms',
+  path: '/legal/terms',
+  getParentRoute: () => EnRoute,
+} as any)
+const RuLegalPrivacyRoute = RuLegalPrivacyRouteImport.update({
+  id: '/ru/legal/privacy',
+  path: '/ru/legal/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RuLegalTermsRoute = RuLegalTermsRouteImport.update({
+  id: '/ru/legal/terms',
+  path: '/ru/legal/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/en': typeof EnRouteWithChildren
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
+  '/admin/finance': typeof AuthenticatedAdminFinanceRoute
+  '/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/en/legal/privacy': typeof EnLegalPrivacyRoute
+  '/en/legal/terms': typeof EnLegalTermsRoute
+  '/ru/legal/privacy': typeof RuLegalPrivacyRoute
+  '/ru/legal/terms': typeof RuLegalTermsRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/en': typeof EnRouteWithChildren
+  '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
+  '/admin/finance': typeof AuthenticatedAdminFinanceRoute
+  '/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/en/legal/privacy': typeof EnLegalPrivacyRoute
+  '/en/legal/terms': typeof EnLegalTermsRoute
+  '/ru/legal/privacy': typeof RuLegalPrivacyRoute
+  '/ru/legal/terms': typeof RuLegalTermsRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/en': typeof EnRouteWithChildren
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/_authenticated/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
+  '/_authenticated/admin/finance': typeof AuthenticatedAdminFinanceRoute
+  '/_authenticated/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/en/legal/privacy': typeof EnLegalPrivacyRoute
+  '/en/legal/terms': typeof EnLegalTermsRoute
+  '/ru/legal/privacy': typeof RuLegalPrivacyRoute
+  '/ru/legal/terms': typeof RuLegalTermsRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/en'
+    | '/admin'
+    | '/admin/enquiries'
+    | '/admin/finance'
+    | '/admin/shows'
+    | '/en/legal/privacy'
+    | '/en/legal/terms'
+    | '/ru/legal/privacy'
+    | '/ru/legal/terms'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/en'
+    | '/admin/enquiries'
+    | '/admin/finance'
+    | '/admin/shows'
+    | '/en/legal/privacy'
+    | '/en/legal/terms'
+    | '/ru/legal/privacy'
+    | '/ru/legal/terms'
+    | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/en'
+    | '/_authenticated/admin'
+    | '/_authenticated/admin/enquiries'
+    | '/_authenticated/admin/finance'
+    | '/_authenticated/admin/shows'
+    | '/en/legal/privacy'
+    | '/en/legal/terms'
+    | '/ru/legal/privacy'
+    | '/ru/legal/terms'
+    | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  EnRoute: typeof EnRouteWithChildren
+  RuLegalPrivacyRoute: typeof RuLegalPrivacyRoute
+  RuLegalTermsRoute: typeof RuLegalTermsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +196,140 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/en': {
+      id: '/en'
+      path: '/en'
+      fullPath: '/en'
+      preLoaderRoute: typeof EnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/enquiries': {
+      id: '/_authenticated/admin/enquiries'
+      path: '/enquiries'
+      fullPath: '/admin/enquiries'
+      preLoaderRoute: typeof AuthenticatedAdminEnquiriesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/finance': {
+      id: '/_authenticated/admin/finance'
+      path: '/finance'
+      fullPath: '/admin/finance'
+      preLoaderRoute: typeof AuthenticatedAdminFinanceRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/shows': {
+      id: '/_authenticated/admin/shows'
+      path: '/shows'
+      fullPath: '/admin/shows'
+      preLoaderRoute: typeof AuthenticatedAdminShowsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/en/legal/privacy': {
+      id: '/en/legal/privacy'
+      path: '/legal/privacy'
+      fullPath: '/en/legal/privacy'
+      preLoaderRoute: typeof EnLegalPrivacyRouteImport
+      parentRoute: typeof EnRoute
+    }
+    '/en/legal/terms': {
+      id: '/en/legal/terms'
+      path: '/legal/terms'
+      fullPath: '/en/legal/terms'
+      preLoaderRoute: typeof EnLegalTermsRouteImport
+      parentRoute: typeof EnRoute
+    }
+    '/ru/legal/privacy': {
+      id: '/ru/legal/privacy'
+      path: '/ru/legal/privacy'
+      fullPath: '/ru/legal/privacy'
+      preLoaderRoute: typeof RuLegalPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ru/legal/terms': {
+      id: '/ru/legal/terms'
+      path: '/ru/legal/terms'
+      fullPath: '/ru/legal/terms'
+      preLoaderRoute: typeof RuLegalTermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminEnquiriesRoute: typeof AuthenticatedAdminEnquiriesRoute
+  AuthenticatedAdminFinanceRoute: typeof AuthenticatedAdminFinanceRoute
+  AuthenticatedAdminShowsRoute: typeof AuthenticatedAdminShowsRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminEnquiriesRoute: AuthenticatedAdminEnquiriesRoute,
+  AuthenticatedAdminFinanceRoute: AuthenticatedAdminFinanceRoute,
+  AuthenticatedAdminShowsRoute: AuthenticatedAdminShowsRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface EnRouteChildren {
+  EnLegalPrivacyRoute: typeof EnLegalPrivacyRoute
+  EnLegalTermsRoute: typeof EnLegalTermsRoute
+}
+
+const EnRouteChildren: EnRouteChildren = {
+  EnLegalPrivacyRoute: EnLegalPrivacyRoute,
+  EnLegalTermsRoute: EnLegalTermsRoute,
+}
+
+const EnRouteWithChildren = EnRoute._addFileChildren(EnRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  EnRoute: EnRouteWithChildren,
+  RuLegalPrivacyRoute: RuLegalPrivacyRoute,
+  RuLegalTermsRoute: RuLegalTermsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

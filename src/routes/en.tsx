@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { LandingPage } from "@/landing/LandingPage";
-import { bodyHtml, description, title } from "@/landing/content.ru";
+import { bodyHtml, description, title } from "@/landing/content.en";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/en")({
   head: () => ({
     meta: [
       { title },
@@ -14,5 +14,5 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: () => <LandingPage html={bodyHtml} locale="ru" />,
+  component: () => <LandingPage html={bodyHtml} locale="en" />,
 });
