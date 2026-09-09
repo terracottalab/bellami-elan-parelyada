@@ -51,6 +51,18 @@ async function adminClient(): Promise<SupabaseClient<Database>> {
   return supabaseAdmin as SupabaseClient<Database>;
 }
 
+// Rate limit check runs with service-role privileges only (no exposed DB helper).
+async function withinRateLimit(supabase: SupabaseClient<Database>, ipHash: string) {
+  const since = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+  const { count, error } = await supabase
+    .from("enquiries")
+    .select("id", { count: "exact", head: true })
+    .eq("ip_hash", ipHash)
+    .gt("created_at", since);
+  if (error) return true;
+  return (count ?? 0) < 3;
+}
+
 async function getSession(supabase: SupabaseClient<Database>, sessionId: string) {
   const { data, error } = await supabase.from("chat_sessions").select("*").eq("id", sessionId).single();
   if (error || !data) return null;
@@ -167,8 +179,8 @@ export const sendChatMessage = createServerFn({ method: "POST" })
     if (!session) throw new Error("Session not found");
 
     const hash = await visitorHash("chat");
-    const { data: allowed } = await supabase.rpc("can_submit_enquiry", { _ip_hash: hash });
-    if (allowed === false) {
+    const allowed = await withinRateLimit(supabase, hash);
+    if (!allowed) {
       return {
         reply:
           session.locale === "en"

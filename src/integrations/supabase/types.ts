@@ -564,7 +564,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      can_submit_enquiry: { Args: { _ip_hash: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

@@ -43,6 +43,13 @@
       "when": 1788990738062,
       "tag": "0005_telegram_subscribers",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1788992777375,
+      "tag": "0006_definer_function_hardening",
+      "breakpoints": true
     }
   ]
 }
