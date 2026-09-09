@@ -458,7 +458,7 @@ export const bodyHtml = `
   </div></section>
     <section class="section"><div class="container">
       <h2>Следить за историей Пари</h2>
-      <p class="lede">Ссылки на Telegram, Instagram, VK и Facebook появятся, когда будут подтверждены.</p>
+      <p class="lede">Мы уже в <a href="https://t.me/norwichinfo" target="_blank" rel="noopener">Telegram</a> и <a href="https://vk.ru/norwichinfo" target="_blank" rel="noopener">VK</a>. Instagram и Facebook появятся позже.</p>
       
     </div></section>
   </main>
@@ -474,9 +474,9 @@ export const bodyHtml = `
         <div>
           <a class="btn btn-ghost" href="#puppy-application">Заявка на щенка</a>
           <div class="social-list" style="margin-top:1.4rem">
-            <span class="muted">Telegram — Скоро</span>
+            <a href="https://t.me/norwichinfo" target="_blank" rel="noopener">Telegram</a>
+            <a href="https://vk.ru/norwichinfo" target="_blank" rel="noopener">VK</a>
             <span class="muted">Instagram — Скоро</span>
-            <span class="muted">VK — Скоро</span>
             <span class="muted">Facebook — Скоро</span>
           </div>
           <p style="margin-top:1rem"><a href="/">RU</a> | <a href="/en">EN</a></p>
