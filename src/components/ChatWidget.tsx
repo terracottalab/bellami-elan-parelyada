@@ -22,7 +22,6 @@ import {
   startChatSession,
   sendChatMessage,
   createTicketFromChat,
-  createEnquiryFromChat,
 } from "@/lib/chat.functions";
 import { Link } from "@tanstack/react-router";
 
@@ -56,9 +55,7 @@ const copy = {
       "Уход и груминг",
       "Задать свой вопрос",
     ],
-    enquiryCta: "Отправить запрос владельцу",
     contactCta: "Связаться с владельцем",
-    enquirySent: "Запрос владельцу отправлен.",
     contactSent: "Запрос на связь отправлен.",
     languageLabel: "RU",
   },
@@ -82,9 +79,7 @@ const copy = {
       "Care and grooming",
       "Ask my own question",
     ],
-    enquiryCta: "Send an enquiry to the owner",
     contactCta: "Contact the owner",
-    enquirySent: "Enquiry sent to the owner.",
     contactSent: "Contact request sent to the owner.",
     languageLabel: "EN",
   },
@@ -104,7 +99,6 @@ export function ChatWidget() {
   const startSession = useServerFn(startChatSession);
   const sendMessage = useServerFn(sendChatMessage);
   const createTicket = useServerFn(createTicketFromChat);
-  const createEnquiry = useServerFn(createEnquiryFromChat);
 
   const t = copy[locale];
 
@@ -161,21 +155,6 @@ export function ChatWidget() {
           ? "Не удалось отправить сообщение. Попробуйте позже."
           : "Could not send message. Please try again.";
       setMessages((prev) => [...prev, { id: crypto.randomUUID(), role: "assistant", content: errMsg }]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleEnquiry = async () => {
-    if (!sessionId) return;
-    setLoading(true);
-    try {
-      const { message } = await createEnquiry({
-        data: { sessionId, reason: locale === "ru" ? "Запрос из чата" : "Enquiry from chat" },
-      });
-      setNotice(message);
-    } catch (err) {
-      setNotice(locale === "ru" ? "Не удалось отправить запрос." : "Could not send enquiry.");
     } finally {
       setLoading(false);
     }
@@ -356,10 +335,19 @@ export function ChatWidget() {
                 </div>
 
                 <div className="chat-ctas">
-                  <button type="button" className="chat-cta-btn" onClick={handleEnquiry} disabled={loading}>
-                    {t.enquiryCta}
-                  </button>
-                  <button type="button" className="chat-cta-btn chat-cta-btn-primary" onClick={handleContact} disabled={loading}>
+                  <button
+                    type="button"
+                    className="chat-cta-btn chat-cta-btn-primary"
+                    onClick={handleContact}
+                    disabled={loading || !messages.some((m) => m.role === "user")}
+                    title={
+                      messages.some((m) => m.role === "user")
+                        ? undefined
+                        : locale === "ru"
+                          ? "Напишите сообщение, чтобы связаться с владельцем"
+                          : "Type a message to contact the owner"
+                    }
+                  >
                     {t.contactCta}
                   </button>
                 </div>
