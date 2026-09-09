@@ -1661,3 +1661,13 @@ html, .landing{
     max-width: 56rem;
   }
 }
+
+.landing .diploma-frame{
+  aspect-ratio: 1 / 1;
+}
+
+@media (min-width: 768px) {
+  .landing .gallery-grid--compact{
+    margin-inline: 0;
+  }
+}
