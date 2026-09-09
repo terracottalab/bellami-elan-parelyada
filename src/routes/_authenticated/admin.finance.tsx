@@ -171,11 +171,12 @@ function FinancePage() {
               onChange={(e) => setForm({ ...form, currency: e.target.value })}
               className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm"
             >
-              {["EUR", "USD", "RUB", "AMD"].map((code) => (
-                <option key={code} value={code}>
-                  {code}
+              {CURRENCIES.map((c) => (
+                <option key={c.code} value={c.code}>
+                  {c.label}
                 </option>
               ))}
+
             </select>
           </label>
           <label className="space-y-1 text-sm">
