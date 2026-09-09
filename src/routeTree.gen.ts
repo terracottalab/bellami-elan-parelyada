@@ -20,6 +20,7 @@ import { Route as AuthenticatedAdminFinanceRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminShowsRouteImport } from './routes/_authenticated/admin.shows'
 import { Route as EnLegalPrivacyRouteImport } from './routes/en.legal.privacy'
 import { Route as EnLegalTermsRouteImport } from './routes/en.legal.terms'
+import { Route as RuLegalOfferRouteImport } from './routes/ru.legal.offer'
 import { Route as RuLegalPrivacyRouteImport } from './routes/ru.legal.privacy'
 import { Route as RuLegalTermsRouteImport } from './routes/ru.legal.terms'
 
@@ -79,6 +80,11 @@ const EnLegalTermsRoute = EnLegalTermsRouteImport.update({
   path: '/legal/terms',
   getParentRoute: () => EnRoute,
 } as any)
+const RuLegalOfferRoute = RuLegalOfferRouteImport.update({
+  id: '/ru/legal/offer',
+  path: '/ru/legal/offer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RuLegalPrivacyRoute = RuLegalPrivacyRouteImport.update({
   id: '/ru/legal/privacy',
   path: '/ru/legal/privacy',
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
   '/en/legal/terms': typeof EnLegalTermsRoute
+  '/ru/legal/offer': typeof RuLegalOfferRoute
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
   '/en/legal/terms': typeof EnLegalTermsRoute
+  '/ru/legal/offer': typeof RuLegalOfferRoute
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/shows': typeof AuthenticatedAdminShowsRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
   '/en/legal/terms': typeof EnLegalTermsRoute
+  '/ru/legal/offer': typeof RuLegalOfferRoute
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/admin/shows'
     | '/en/legal/privacy'
     | '/en/legal/terms'
+    | '/ru/legal/offer'
     | '/ru/legal/privacy'
     | '/ru/legal/terms'
     | '/admin/'
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/admin/shows'
     | '/en/legal/privacy'
     | '/en/legal/terms'
+    | '/ru/legal/offer'
     | '/ru/legal/privacy'
     | '/ru/legal/terms'
     | '/admin'
@@ -173,6 +184,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/shows'
     | '/en/legal/privacy'
     | '/en/legal/terms'
+    | '/ru/legal/offer'
     | '/ru/legal/privacy'
     | '/ru/legal/terms'
     | '/_authenticated/admin/'
@@ -183,6 +195,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   EnRoute: typeof EnRouteWithChildren
+  RuLegalOfferRoute: typeof RuLegalOfferRoute
   RuLegalPrivacyRoute: typeof RuLegalPrivacyRoute
   RuLegalTermsRoute: typeof RuLegalTermsRoute
 }
@@ -266,6 +279,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnLegalTermsRouteImport
       parentRoute: typeof EnRoute
     }
+    '/ru/legal/offer': {
+      id: '/ru/legal/offer'
+      path: '/ru/legal/offer'
+      fullPath: '/ru/legal/offer'
+      preLoaderRoute: typeof RuLegalOfferRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ru/legal/privacy': {
       id: '/ru/legal/privacy'
       path: '/ru/legal/privacy'
@@ -328,6 +348,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   EnRoute: EnRouteWithChildren,
+  RuLegalOfferRoute: RuLegalOfferRoute,
   RuLegalPrivacyRoute: RuLegalPrivacyRoute,
   RuLegalTermsRoute: RuLegalTermsRoute,
 }
