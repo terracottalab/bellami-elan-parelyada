@@ -200,7 +200,6 @@ export const sendChatMessage = createServerFn({ method: "POST" })
     const history = await getHistory(supabase, data.sessionId);
     const kb = await getKnowledgeBase(locale);
     const messages = [
-      { role: "system" as const, content: buildSystemPrompt(locale, kb) },
       ...history.map((m) => ({ role: m.role, content: m.content })),
       { role: "user" as const, content: data.message },
     ];
@@ -211,6 +210,7 @@ export const sendChatMessage = createServerFn({ method: "POST" })
     const gateway = createLovableAiGatewayProvider(key);
     const result = await generateText({
       model: gateway("google/gemini-3.8-flash"),
+      instructions: buildSystemPrompt(locale, kb),
       messages,
       providerOptions: {
         lovable: { service_tier: "priority" },
