@@ -22,7 +22,6 @@ import {
   startChatSession,
   sendChatMessage,
   createTicketFromChat,
-  createEnquiryFromChat,
 } from "@/lib/chat.functions";
 import { Link } from "@tanstack/react-router";
 
