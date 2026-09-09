@@ -14,8 +14,83 @@ export type Database = {
   }
   public: {
     Tables: {
+      chat_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          role: string
+          session_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+          session_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "chat_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_sessions: {
+        Row: {
+          consent: boolean
+          created_at: string
+          id: string
+          ip_hash: string | null
+          locale: string
+          name: string
+          phone: string
+          status: string
+          summary: string | null
+          updated_at: string
+          user_agent: string | null
+        }
+        Insert: {
+          consent?: boolean
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          locale?: string
+          name: string
+          phone: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Update: {
+          consent?: boolean
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          locale?: string
+          name?: string
+          phone?: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       enquiries: {
         Row: {
+          chat_session_id: string | null
           consent: boolean
           created_at: string
           email: string
@@ -29,6 +104,7 @@ export type Database = {
           place: string
           preferred_contact: string
           purpose: string
+          source: string
           status: Database["public"]["Enums"]["enquiry_status"]
           timing: string
           updated_at: string
@@ -36,6 +112,7 @@ export type Database = {
           why_norwich: string
         }
         Insert: {
+          chat_session_id?: string | null
           consent?: boolean
           created_at?: string
           email: string
@@ -49,6 +126,7 @@ export type Database = {
           place: string
           preferred_contact: string
           purpose: string
+          source?: string
           status?: Database["public"]["Enums"]["enquiry_status"]
           timing: string
           updated_at?: string
@@ -56,6 +134,7 @@ export type Database = {
           why_norwich: string
         }
         Update: {
+          chat_session_id?: string | null
           consent?: boolean
           created_at?: string
           email?: string
@@ -69,13 +148,22 @@ export type Database = {
           place?: string
           preferred_contact?: string
           purpose?: string
+          source?: string
           status?: Database["public"]["Enums"]["enquiry_status"]
           timing?: string
           updated_at?: string
           user_agent?: string | null
           why_norwich?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "enquiries_chat_session_id_fkey"
+            columns: ["chat_session_id"]
+            isOneToOne: false
+            referencedRelation: "chat_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       enquiry_notes: {
         Row: {
@@ -162,6 +250,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      kb_chunks: {
+        Row: {
+          chunk: string
+          created_at: string
+          id: string
+          locale: string
+          source: string
+          title: string | null
+        }
+        Insert: {
+          chunk: string
+          created_at?: string
+          id?: string
+          locale?: string
+          source: string
+          title?: string | null
+        }
+        Update: {
+          chunk?: string
+          created_at?: string
+          id?: string
+          locale?: string
+          source?: string
+          title?: string | null
+        }
+        Relationships: []
       }
       litters: {
         Row: {
@@ -358,6 +473,47 @@ export type Database = {
         }
         Relationships: []
       }
+      tickets: {
+        Row: {
+          created_at: string
+          id: string
+          number: string
+          reason: string
+          session_id: string
+          status: string
+          summary: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          number: string
+          reason: string
+          session_id: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          number?: string
+          reason?: string
+          session_id?: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tickets_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "chat_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -395,7 +551,13 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "accountant"
-      enquiry_status: "new" | "in_progress" | "approved" | "declined"
+      enquiry_status:
+        | "new"
+        | "in_progress"
+        | "approved"
+        | "declined"
+        | "answered"
+        | "closed"
       finance_direction: "income" | "expense"
     }
     CompositeTypes: {
@@ -525,7 +687,14 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "accountant"],
-      enquiry_status: ["new", "in_progress", "approved", "declined"],
+      enquiry_status: [
+        "new",
+        "in_progress",
+        "approved",
+        "declined",
+        "answered",
+        "closed",
+      ],
       finance_direction: ["income", "expense"],
     },
   },
