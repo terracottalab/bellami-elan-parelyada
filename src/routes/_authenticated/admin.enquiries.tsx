@@ -138,6 +138,30 @@ function EnquiriesPage() {
             </option>
           ))}
         </select>
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Поиск по имени, e-mail, городу"
+          className="rounded-md border border-input bg-background px-3 py-1.5 text-sm"
+        />
+        <label className="flex items-center gap-1 text-sm text-muted-foreground">
+          с
+          <input
+            type="date"
+            value={from}
+            onChange={(e) => setFrom(e.target.value)}
+            className="rounded-md border border-input bg-background px-2 py-1.5 text-sm"
+          />
+        </label>
+        <label className="flex items-center gap-1 text-sm text-muted-foreground">
+          по
+          <input
+            type="date"
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
+            className="rounded-md border border-input bg-background px-2 py-1.5 text-sm"
+          />
+        </label>
         <button
           type="button"
           onClick={exportCsv}
@@ -148,7 +172,7 @@ function EnquiriesPage() {
       </div>
 
       {rows.length === 0 ? (
-        <p className="text-sm text-muted-foreground">Заявок пока нет.</p>
+        <p className="text-sm text-muted-foreground">Заявок по этим условиям нет.</p>
       ) : (
         <ul className="space-y-3">
           {rows.map((row) => (
