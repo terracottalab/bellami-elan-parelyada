@@ -263,3 +263,193 @@ export const deleteFinanceEntry = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true as const };
   });
+
+// ---------- Сайт: тексты, фото, помёт ----------
+
+async function assertAdmin(context: { supabase: any; userId: string }) {
+  const { data: isAdmin } = await context.supabase.rpc("has_role", {
+    _user_id: context.userId,
+    _role: "admin",
+  });
+  if (!isAdmin) throw new Error(FORBIDDEN);
+}
+
+export const getSiteSettings = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertStaff(context);
+    const [content, photos, litter] = await Promise.all([
+      context.supabase.from("site_content").select("key, locale, value"),
+      context.supabase
+        .from("site_photos")
+        .select("id, slot, url, caption, alt, sort_order")
+        .order("sort_order", { ascending: true }),
+      context.supabase
+        .from("litters")
+        .select("*")
+        .order("updated_at", { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+    ]);
+    return {
+      content: (content.data ?? []) as Array<{ key: string; locale: string; value: string }>,
+      photos: (photos.data ?? []) as Array<{
+        id: string;
+        slot: string;
+        url: string;
+        caption: string | null;
+        alt: string | null;
+        sort_order: number;
+      }>,
+      litter: litter.data ?? null,
+    };
+  });
+
+export const saveSiteContent = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        items: z
+          .array(
+            z.object({
+              locale: z.enum(["ru", "en"]),
+              key: z.string().trim().min(1).max(80),
+              value: z.string().max(8000),
+            }),
+          )
+          .max(100),
+      })
+      .parse(input),
+  )
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context);
+    const rows = data.items.map((item) => ({
+      locale: item.locale,
+      key: item.key,
+      value: item.value,
+      updated_at: new Date().toISOString(),
+    }));
+    const { error } = await context.supabase
+      .from("site_content")
+      .upsert(rows, { onConflict: "locale,key" });
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
+
+export const addSitePhoto = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        slot: z.enum(["hero", "about", "show_career", "contacts", "gallery", "diploma"]),
+        url: z.string().trim().min(1).max(500),
+        caption: z.string().trim().max(200).optional().default(""),
+        alt: z.string().trim().max(200).optional().default(""),
+        replace: z.boolean().optional().default(false),
+      })
+      .parse(input),
+  )
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context);
+    if (data.replace) {
+      await context.supabase.from("site_photos").delete().eq("slot", data.slot);
+    }
+    const { data: last } = await context.supabase
+      .from("site_photos")
+      .select("sort_order")
+      .eq("slot", data.slot)
+      .order("sort_order", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    const { error } = await context.supabase.from("site_photos").insert({
+      slot: data.slot,
+      url: data.url,
+      caption: data.caption || null,
+      alt: data.alt || data.caption || null,
+      sort_order: ((last?.sort_order as number | undefined) ?? 0) + 1,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
+
+export const updateSitePhoto = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        id: z.string().uuid(),
+        caption: z.string().trim().max(200).optional(),
+        sort_order: z.number().int().optional(),
+      })
+      .parse(input),
+  )
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context);
+    const patch: Record<string, unknown> = {};
+    if (data.caption !== undefined) {
+      patch["caption"] = data.caption || null;
+      patch["alt"] = data.caption || null;
+    }
+    if (data.sort_order !== undefined) patch["sort_order"] = data.sort_order;
+    const { error } = await context.supabase.from("site_photos").update(patch).eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
+
+export const deleteSitePhoto = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context);
+    const { error } = await context.supabase.from("site_photos").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
+
+const litterSchema = z.object({
+  id: z.string().uuid().optional(),
+  name: z.string().trim().min(1).max(200),
+  planned_date: z.string().trim().max(20).optional().default(""),
+  status: z.enum(["planning", "expected", "born", "reserved"]),
+  headline_ru: z.string().trim().max(300).optional().default(""),
+  body_ru: z.string().trim().max(4000).optional().default(""),
+  headline_en: z.string().trim().max(300).optional().default(""),
+  body_en: z.string().trim().max(4000).optional().default(""),
+  timing_label_ru: z.string().trim().max(200).optional().default(""),
+  timing_label_en: z.string().trim().max(200).optional().default(""),
+  notes: z.string().trim().max(4000).optional().default(""),
+  is_published: z.boolean().optional().default(false),
+});
+
+export const saveLitter = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => litterSchema.parse(input))
+  .handler(async ({ context, data }) => {
+    await assertAdmin(context);
+    const row = {
+      name: data.name,
+      planned_date: data.planned_date || null,
+      status: data.status,
+      headline_ru: data.headline_ru || null,
+      body_ru: data.body_ru || null,
+      headline_en: data.headline_en || null,
+      body_en: data.body_en || null,
+      timing_label_ru: data.timing_label_ru || null,
+      timing_label_en: data.timing_label_en || null,
+      notes: data.notes || null,
+      is_published: data.is_published,
+      updated_at: new Date().toISOString(),
+    };
+    if (data.is_published) {
+      await context.supabase
+        .from("litters")
+        .update({ is_published: false })
+        .eq("is_published", true);
+    }
+    const { error } = data.id
+      ? await context.supabase.from("litters").update(row).eq("id", data.id)
+      : await context.supabase.from("litters").insert(row);
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
