@@ -24,6 +24,7 @@ import { Route as AuthenticatedAdminFinanceRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminLitterRouteImport } from './routes/_authenticated/admin.litter'
 import { Route as AuthenticatedAdminPhotosRouteImport } from './routes/_authenticated/admin.photos'
 import { Route as AuthenticatedAdminShowsRouteImport } from './routes/_authenticated/admin.shows'
+import { Route as AuthenticatedAdminTelegramRouteImport } from './routes/_authenticated/admin.telegram'
 import { Route as AuthenticatedAdminTicketsRouteImport } from './routes/_authenticated/admin.tickets'
 import { Route as EnLegalOfferRouteImport } from './routes/en.legal.offer'
 import { Route as EnLegalPrivacyRouteImport } from './routes/en.legal.privacy'
@@ -113,6 +114,12 @@ const AuthenticatedAdminShowsRoute = AuthenticatedAdminShowsRouteImport.update({
   path: '/shows',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminTelegramRoute =
+  AuthenticatedAdminTelegramRouteImport.update({
+    id: '/telegram',
+    path: '/telegram',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminTicketsRoute =
   AuthenticatedAdminTicketsRouteImport.update({
     id: '/tickets',
@@ -175,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/admin/litter': typeof AuthenticatedAdminLitterRoute
   '/admin/photos': typeof AuthenticatedAdminPhotosRoute
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/admin/telegram': typeof AuthenticatedAdminTelegramRoute
   '/admin/tickets': typeof AuthenticatedAdminTicketsRoute
   '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
@@ -199,6 +207,7 @@ export interface FileRoutesByTo {
   '/admin/litter': typeof AuthenticatedAdminLitterRoute
   '/admin/photos': typeof AuthenticatedAdminPhotosRoute
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/admin/telegram': typeof AuthenticatedAdminTelegramRoute
   '/admin/tickets': typeof AuthenticatedAdminTicketsRoute
   '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
@@ -226,6 +235,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/litter': typeof AuthenticatedAdminLitterRoute
   '/_authenticated/admin/photos': typeof AuthenticatedAdminPhotosRoute
   '/_authenticated/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/_authenticated/admin/telegram': typeof AuthenticatedAdminTelegramRoute
   '/_authenticated/admin/tickets': typeof AuthenticatedAdminTicketsRoute
   '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
@@ -253,6 +263,7 @@ export interface FileRouteTypes {
     | '/admin/litter'
     | '/admin/photos'
     | '/admin/shows'
+    | '/admin/telegram'
     | '/admin/tickets'
     | '/en/legal/offer'
     | '/en/legal/privacy'
@@ -277,6 +288,7 @@ export interface FileRouteTypes {
     | '/admin/litter'
     | '/admin/photos'
     | '/admin/shows'
+    | '/admin/telegram'
     | '/admin/tickets'
     | '/en/legal/offer'
     | '/en/legal/privacy'
@@ -303,6 +315,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/litter'
     | '/_authenticated/admin/photos'
     | '/_authenticated/admin/shows'
+    | '/_authenticated/admin/telegram'
     | '/_authenticated/admin/tickets'
     | '/en/legal/offer'
     | '/en/legal/privacy'
@@ -439,6 +452,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminShowsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/telegram': {
+      id: '/_authenticated/admin/telegram'
+      path: '/telegram'
+      fullPath: '/admin/telegram'
+      preLoaderRoute: typeof AuthenticatedAdminTelegramRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/tickets': {
       id: '/_authenticated/admin/tickets'
       path: '/tickets'
@@ -513,6 +533,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminLitterRoute: typeof AuthenticatedAdminLitterRoute
   AuthenticatedAdminPhotosRoute: typeof AuthenticatedAdminPhotosRoute
   AuthenticatedAdminShowsRoute: typeof AuthenticatedAdminShowsRoute
+  AuthenticatedAdminTelegramRoute: typeof AuthenticatedAdminTelegramRoute
   AuthenticatedAdminTicketsRoute: typeof AuthenticatedAdminTicketsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
@@ -525,6 +546,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminLitterRoute: AuthenticatedAdminLitterRoute,
   AuthenticatedAdminPhotosRoute: AuthenticatedAdminPhotosRoute,
   AuthenticatedAdminShowsRoute: AuthenticatedAdminShowsRoute,
+  AuthenticatedAdminTelegramRoute: AuthenticatedAdminTelegramRoute,
   AuthenticatedAdminTicketsRoute: AuthenticatedAdminTicketsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }

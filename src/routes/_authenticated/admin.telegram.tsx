@@ -18,7 +18,7 @@ function TelegramPage() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["telegram-status"],
-    queryFn: () => status({ data: {} }),
+    queryFn: () => status(),
   });
 
   const setupMutation = useMutation({
@@ -31,7 +31,7 @@ function TelegramPage() {
   });
 
   const testMutation = useMutation({
-    mutationFn: () => test({ data: {} }),
+    mutationFn: () => test(),
     onSuccess: () => setNote("Тестовое уведомление отправлено."),
     onError: (e: Error) => setNote(`Ошибка: ${e.message}`),
   });
