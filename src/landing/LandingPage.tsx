@@ -56,5 +56,10 @@ export function LandingPage({
     }).catch(() => undefined);
   }, [locale]);
 
-  return <div className="landing" ref={ref} dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <>
+      <div className="landing" ref={ref} dangerouslySetInnerHTML={{ __html: html }} />
+      <ChatWidget />
+    </>
+  );
 }
