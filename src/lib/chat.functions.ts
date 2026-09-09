@@ -179,8 +179,8 @@ export const sendChatMessage = createServerFn({ method: "POST" })
     if (!session) throw new Error("Session not found");
 
     const hash = await visitorHash("chat");
-    const { data: allowed } = await supabase.rpc("can_submit_enquiry", { _ip_hash: hash });
-    if (allowed === false) {
+    const allowed = await withinRateLimit(supabase, hash);
+    if (!allowed) {
       return {
         reply:
           session.locale === "en"
