@@ -335,10 +335,19 @@ export function ChatWidget() {
                 </div>
 
                 <div className="chat-ctas">
-                  <button type="button" className="chat-cta-btn" onClick={handleEnquiry} disabled={loading}>
-                    {t.enquiryCta}
-                  </button>
-                  <button type="button" className="chat-cta-btn chat-cta-btn-primary" onClick={handleContact} disabled={loading}>
+                  <button
+                    type="button"
+                    className="chat-cta-btn chat-cta-btn-primary"
+                    onClick={handleContact}
+                    disabled={loading || !messages.some((m) => m.role === "user")}
+                    title={
+                      messages.some((m) => m.role === "user")
+                        ? undefined
+                        : locale === "ru"
+                          ? "Напишите сообщение, чтобы связаться с владельцем"
+                          : "Type a message to contact the owner"
+                    }
+                  >
                     {t.contactCta}
                   </button>
                 </div>
