@@ -160,21 +160,6 @@ export function ChatWidget() {
     }
   };
 
-  const handleEnquiry = async () => {
-    if (!sessionId) return;
-    setLoading(true);
-    try {
-      const { message } = await createEnquiry({
-        data: { sessionId, reason: locale === "ru" ? "Запрос из чата" : "Enquiry from chat" },
-      });
-      setNotice(message);
-    } catch (err) {
-      setNotice(locale === "ru" ? "Не удалось отправить запрос." : "Could not send enquiry.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleContact = async () => {
     if (!sessionId) return;
     setLoading(true);
