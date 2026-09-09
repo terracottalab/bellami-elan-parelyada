@@ -12,14 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as EnRouteImport } from './routes/en'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as EnIndexRouteImport } from './routes/en.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminEnquiriesRouteImport } from './routes/_authenticated/admin.enquiries'
 import { Route as AuthenticatedAdminFinanceRouteImport } from './routes/_authenticated/admin.finance'
 import { Route as AuthenticatedAdminShowsRouteImport } from './routes/_authenticated/admin.shows'
+import { Route as EnLegalOfferRouteImport } from './routes/en.legal.offer'
 import { Route as EnLegalPrivacyRouteImport } from './routes/en.legal.privacy'
 import { Route as EnLegalTermsRouteImport } from './routes/en.legal.terms'
+import { Route as RuLegalOfferRouteImport } from './routes/ru.legal.offer'
 import { Route as RuLegalPrivacyRouteImport } from './routes/ru.legal.privacy'
 import { Route as RuLegalTermsRouteImport } from './routes/ru.legal.terms'
 
@@ -37,15 +39,15 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EnRoute = EnRouteImport.update({
-  id: '/en',
-  path: '/en',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const EnIndexRoute = EnIndexRouteImport.update({
+  id: '/en/',
+  path: '/en/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
@@ -69,15 +71,25 @@ const AuthenticatedAdminShowsRoute = AuthenticatedAdminShowsRouteImport.update({
   path: '/shows',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const EnLegalOfferRoute = EnLegalOfferRouteImport.update({
+  id: '/en/legal/offer',
+  path: '/en/legal/offer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EnLegalPrivacyRoute = EnLegalPrivacyRouteImport.update({
-  id: '/legal/privacy',
-  path: '/legal/privacy',
-  getParentRoute: () => EnRoute,
+  id: '/en/legal/privacy',
+  path: '/en/legal/privacy',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const EnLegalTermsRoute = EnLegalTermsRouteImport.update({
-  id: '/legal/terms',
-  path: '/legal/terms',
-  getParentRoute: () => EnRoute,
+  id: '/en/legal/terms',
+  path: '/en/legal/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RuLegalOfferRoute = RuLegalOfferRouteImport.update({
+  id: '/ru/legal/offer',
+  path: '/ru/legal/offer',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const RuLegalPrivacyRoute = RuLegalPrivacyRouteImport.update({
   id: '/ru/legal/privacy',
@@ -93,13 +105,15 @@ const RuLegalTermsRoute = RuLegalTermsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/en': typeof EnRouteWithChildren
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/en/': typeof EnIndexRoute
   '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/admin/finance': typeof AuthenticatedAdminFinanceRoute
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
   '/en/legal/terms': typeof EnLegalTermsRoute
+  '/ru/legal/offer': typeof RuLegalOfferRoute
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -107,12 +121,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/en': typeof EnRouteWithChildren
+  '/en': typeof EnIndexRoute
   '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/admin/finance': typeof AuthenticatedAdminFinanceRoute
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
   '/en/legal/terms': typeof EnLegalTermsRoute
+  '/ru/legal/offer': typeof RuLegalOfferRoute
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -122,13 +138,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
-  '/en': typeof EnRouteWithChildren
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/en/': typeof EnIndexRoute
   '/_authenticated/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/_authenticated/admin/finance': typeof AuthenticatedAdminFinanceRoute
   '/_authenticated/admin/shows': typeof AuthenticatedAdminShowsRoute
+  '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
   '/en/legal/terms': typeof EnLegalTermsRoute
+  '/ru/legal/offer': typeof RuLegalOfferRoute
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
   '/ru/legal/terms': typeof RuLegalTermsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -138,13 +156,15 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
-    | '/en'
     | '/admin'
+    | '/en/'
     | '/admin/enquiries'
     | '/admin/finance'
     | '/admin/shows'
+    | '/en/legal/offer'
     | '/en/legal/privacy'
     | '/en/legal/terms'
+    | '/ru/legal/offer'
     | '/ru/legal/privacy'
     | '/ru/legal/terms'
     | '/admin/'
@@ -156,8 +176,10 @@ export interface FileRouteTypes {
     | '/admin/enquiries'
     | '/admin/finance'
     | '/admin/shows'
+    | '/en/legal/offer'
     | '/en/legal/privacy'
     | '/en/legal/terms'
+    | '/ru/legal/offer'
     | '/ru/legal/privacy'
     | '/ru/legal/terms'
     | '/admin'
@@ -166,13 +188,15 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
-    | '/en'
     | '/_authenticated/admin'
+    | '/en/'
     | '/_authenticated/admin/enquiries'
     | '/_authenticated/admin/finance'
     | '/_authenticated/admin/shows'
+    | '/en/legal/offer'
     | '/en/legal/privacy'
     | '/en/legal/terms'
+    | '/ru/legal/offer'
     | '/ru/legal/privacy'
     | '/ru/legal/terms'
     | '/_authenticated/admin/'
@@ -182,7 +206,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
-  EnRoute: typeof EnRouteWithChildren
+  EnIndexRoute: typeof EnIndexRoute
+  EnLegalOfferRoute: typeof EnLegalOfferRoute
+  EnLegalPrivacyRoute: typeof EnLegalPrivacyRoute
+  EnLegalTermsRoute: typeof EnLegalTermsRoute
+  RuLegalOfferRoute: typeof RuLegalOfferRoute
   RuLegalPrivacyRoute: typeof RuLegalPrivacyRoute
   RuLegalTermsRoute: typeof RuLegalTermsRoute
 }
@@ -210,19 +238,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/en': {
-      id: '/en'
-      path: '/en'
-      fullPath: '/en'
-      preLoaderRoute: typeof EnRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/en/': {
+      id: '/en/'
+      path: '/en'
+      fullPath: '/en/'
+      preLoaderRoute: typeof EnIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
@@ -252,19 +280,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminShowsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/en/legal/offer': {
+      id: '/en/legal/offer'
+      path: '/en/legal/offer'
+      fullPath: '/en/legal/offer'
+      preLoaderRoute: typeof EnLegalOfferRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/en/legal/privacy': {
       id: '/en/legal/privacy'
-      path: '/legal/privacy'
+      path: '/en/legal/privacy'
       fullPath: '/en/legal/privacy'
       preLoaderRoute: typeof EnLegalPrivacyRouteImport
-      parentRoute: typeof EnRoute
+      parentRoute: typeof rootRouteImport
     }
     '/en/legal/terms': {
       id: '/en/legal/terms'
-      path: '/legal/terms'
+      path: '/en/legal/terms'
       fullPath: '/en/legal/terms'
       preLoaderRoute: typeof EnLegalTermsRouteImport
-      parentRoute: typeof EnRoute
+      parentRoute: typeof rootRouteImport
+    }
+    '/ru/legal/offer': {
+      id: '/ru/legal/offer'
+      path: '/ru/legal/offer'
+      fullPath: '/ru/legal/offer'
+      preLoaderRoute: typeof RuLegalOfferRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/ru/legal/privacy': {
       id: '/ru/legal/privacy'
@@ -311,23 +353,15 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
-interface EnRouteChildren {
-  EnLegalPrivacyRoute: typeof EnLegalPrivacyRoute
-  EnLegalTermsRoute: typeof EnLegalTermsRoute
-}
-
-const EnRouteChildren: EnRouteChildren = {
-  EnLegalPrivacyRoute: EnLegalPrivacyRoute,
-  EnLegalTermsRoute: EnLegalTermsRoute,
-}
-
-const EnRouteWithChildren = EnRoute._addFileChildren(EnRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
-  EnRoute: EnRouteWithChildren,
+  EnIndexRoute: EnIndexRoute,
+  EnLegalOfferRoute: EnLegalOfferRoute,
+  EnLegalPrivacyRoute: EnLegalPrivacyRoute,
+  EnLegalTermsRoute: EnLegalTermsRoute,
+  RuLegalOfferRoute: RuLegalOfferRoute,
   RuLegalPrivacyRoute: RuLegalPrivacyRoute,
   RuLegalTermsRoute: RuLegalTermsRoute,
 }
