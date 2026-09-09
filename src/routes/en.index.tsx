@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LandingPage } from "@/landing/LandingPage";
 import { bodyHtml, description, title } from "@/landing/content.en";
 
-export const Route = createFileRoute("/en")({
+export const Route = createFileRoute("/en/")({
   head: () => ({
     meta: [
       { title },
