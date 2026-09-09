@@ -4,7 +4,9 @@ import { generateText } from "ai";
 import { z } from "zod";
 
 import { createLovableAiGatewayProvider } from "./ai-gateway.server";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Database } from "@/integrations/supabase/types";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 const MAX_MESSAGE_LENGTH = 2000;
 const KB_QUERY_LIMIT = 40;
@@ -44,20 +46,18 @@ function deviceFromUA(ua: string) {
   return "desktop";
 }
 
-async function adminClient() {
+async function adminClient(): Promise<SupabaseClient<Database>> {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  return supabaseAdmin as unknown as Database["public"]["Tables"];
+  return supabaseAdmin as SupabaseClient<Database>;
 }
 
-type SupabaseAdmin = Awaited<ReturnType<typeof adminClient>>;
-
-async function getSession(supabase: SupabaseAdmin, sessionId: string) {
+async function getSession(supabase: SupabaseClient<Database>, sessionId: string) {
   const { data, error } = await supabase.from("chat_sessions").select("*").eq("id", sessionId).single();
   if (error || !data) return null;
   return data;
 }
 
-async function getHistory(supabase: SupabaseAdmin, sessionId: string) {
+async function getHistory(supabase: SupabaseClient<Database>, sessionId: string) {
   const { data, error } = await supabase
     .from("chat_messages")
     .select("role, content")
@@ -65,12 +65,12 @@ async function getHistory(supabase: SupabaseAdmin, sessionId: string) {
     .order("created_at", { ascending: true })
     .limit(50);
   if (error || !data) return [];
-  return data as Array<{ role: string; content: string }>;
+  return data as Array<{ role: "user" | "assistant"; content: string }>;
 }
 
 async function getKnowledgeBase(locale: "ru" | "en") {
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { data, error } = await supabaseAdmin
+  const supabase = await adminClient();
+  const { data, error } = await supabase
     .from("kb_chunks")
     .select("source, title, chunk")
     .or(`locale.eq.${locale},locale.eq.both`)
@@ -183,23 +183,26 @@ export const sendChatMessage = createServerFn({ method: "POST" })
       content: data.message,
     });
 
+    const locale = session.locale as "ru" | "en";
+
     if (isEscalation(data.message)) {
-      const reason = session.locale === "en" ? "User requested owner contact" : "Пользователь попросил связаться с владельцем";
+      const reason =
+        locale === "en" ? "User requested owner contact" : "Пользователь попросил связаться с владельцем";
       await createTicket(supabase, data.sessionId, reason);
       return {
         reply:
-          session.locale === "en"
+          locale === "en"
             ? "I have passed your request to the owner. They will contact you soon."
             : "Я передал ваш запрос владельцу. Он свяжется с вами в ближайшее время.",
       };
     }
 
     const history = await getHistory(supabase, data.sessionId);
-    const kb = await getKnowledgeBase(session.locale as "ru" | "en");
+    const kb = await getKnowledgeBase(locale);
     const messages = [
-      { role: "system", content: buildSystemPrompt(session.locale as "ru" | "en", kb) },
-      ...history.map((m) => ({ role: m.role as "user" | "assistant", content: m.content })),
-      { role: "user", content: data.message },
+      { role: "system" as const, content: buildSystemPrompt(locale, kb) },
+      ...history.map((m) => ({ role: m.role, content: m.content })),
+      { role: "user" as const, content: data.message },
     ];
 
     const key = process.env["LOVABLE_API_KEY"];
@@ -214,8 +217,9 @@ export const sendChatMessage = createServerFn({ method: "POST" })
       },
     });
 
-    const reply = result.text ||
-      (session.locale === "en"
+    const reply =
+      result.text ||
+      (locale === "en"
         ? "I don't have enough information in the available materials to answer this confidently. I can pass your question to the owner."
         : "У меня недостаточно информации в доступных материалах, чтобы уверенно ответить. Я могу передать ваш вопрос владельцу.");
 
@@ -225,10 +229,7 @@ export const sendChatMessage = createServerFn({ method: "POST" })
       content: reply,
     });
 
-    await supabase
-      .from("chat_sessions")
-      .update({ updated_at: new Date().toISOString() })
-      .eq("id", data.sessionId);
+    await supabase.from("chat_sessions").update({ updated_at: new Date().toISOString() }).eq("id", data.sessionId);
 
     return { reply };
   });
@@ -295,7 +296,7 @@ export const createEnquiryFromChat = createServerFn({ method: "POST" })
     };
   });
 
-async function createTicket(supabase: SupabaseAdmin, sessionId: string, reason: string) {
+async function createTicket(supabase: SupabaseClient<Database>, sessionId: string, reason: string) {
   const number = `T-${Date.now().toString(36).toUpperCase()}`;
   const { error } = await supabase.from("tickets").insert({
     session_id: sessionId,
@@ -312,14 +313,14 @@ async function createTicket(supabase: SupabaseAdmin, sessionId: string, reason: 
 const sessionFilterSchema = z.object({
   search: z.string().max(200).optional(),
   locale: z.enum(["ru", "en", ""]).optional().default(""),
-  status: z.string().max(50).optional().default(""),
+  status: z.enum(["active", "closed", ""]).optional().default(""),
   hasTicket: z.boolean().optional().default(false),
 });
 
 const updateSessionSchema = z.object({
   sessionId: z.string().uuid(),
   status: z.enum(["active", "closed"]),
-  summary: z.string().max(2000).optional(),
+  summary: z.string().max(2000).nullable().optional(),
 });
 
 const updateTicketSchema = z.object({
@@ -421,7 +422,7 @@ export const updateChatSession = createServerFn({ method: "POST" })
 
     const { error } = await context.supabase
       .from("chat_sessions")
-      .update({ status: data.status, summary: data.summary })
+      .update({ status: data.status, summary: data.summary ?? null })
       .eq("id", data.sessionId);
     if (error) throw new Error("Failed to update session");
     return { ok: true as const };
@@ -433,7 +434,7 @@ export const listTickets = createServerFn({ method: "POST" })
     z
       .object({
         search: z.string().max(200).optional(),
-        status: z.string().max(50).optional().default(""),
+        status: z.enum(["new", "in_progress", "resolved", "closed", ""]).optional().default(""),
       })
       .parse(input),
   )
@@ -473,5 +474,3 @@ export const updateTicket = createServerFn({ method: "POST" })
     if (error) throw new Error("Failed to update ticket");
     return { ok: true as const };
   });
-
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
