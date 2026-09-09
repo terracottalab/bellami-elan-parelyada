@@ -67,8 +67,14 @@ export const submitEnquiry = createServerFn({ method: "POST" })
     const hash = await visitorHash("enquiry");
     const supabase = publicClient();
 
-    const { data: allowed } = await supabase.rpc("can_submit_enquiry", { _ip_hash: hash });
-    if (allowed === false) {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const since = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+    const { count } = await supabaseAdmin
+      .from("enquiries")
+      .select("id", { count: "exact", head: true })
+      .eq("ip_hash", hash)
+      .gt("created_at", since);
+    if ((count ?? 0) >= 3) {
       return {
         ok: false as const,
         message:
