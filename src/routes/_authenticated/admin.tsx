@@ -28,6 +28,7 @@ const NAV = [
   { to: "/admin/content", label: "Тексты сайта" },
   { to: "/admin/shows", label: "Выставки и титулы" },
   { to: "/admin/finance", label: "Финансы" },
+  { to: "/admin/telegram", label: "Telegram" },
 ] as const;
 
 function AdminLayout() {
