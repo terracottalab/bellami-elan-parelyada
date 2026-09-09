@@ -386,7 +386,7 @@ export const updateSitePhoto = createServerFn({ method: "POST" })
   )
   .handler(async ({ context, data }) => {
     await assertAdmin(context);
-    const patch: Record<string, unknown> = {};
+    const patch: { caption?: string | null; alt?: string | null; sort_order?: number } = {};
     if (data.caption !== undefined) {
       patch["caption"] = data.caption || null;
       patch["alt"] = data.caption || null;
