@@ -17,6 +17,7 @@ import { Route as EnIndexRouteImport } from './routes/en.index'
 import { Route as EnShowsRouteImport } from './routes/en.shows'
 import { Route as RuShowsRouteImport } from './routes/ru.shows'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminAiRouteImport } from './routes/_authenticated/admin.ai'
 import { Route as AuthenticatedAdminContentRouteImport } from './routes/_authenticated/admin.content'
 import { Route as AuthenticatedAdminEnquiriesRouteImport } from './routes/_authenticated/admin.enquiries'
 import { Route as AuthenticatedAdminFinanceRouteImport } from './routes/_authenticated/admin.finance'
@@ -68,6 +69,11 @@ const RuShowsRoute = RuShowsRouteImport.update({
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminAiRoute = AuthenticatedAdminAiRouteImport.update({
+  id: '/ai',
+  path: '/ai',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
 const AuthenticatedAdminContentRoute =
@@ -148,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/en/shows': typeof EnShowsRoute
   '/ru/shows': typeof RuShowsRoute
   '/en/': typeof EnIndexRoute
+  '/admin/ai': typeof AuthenticatedAdminAiRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/admin/finance': typeof AuthenticatedAdminFinanceRoute
@@ -169,6 +176,7 @@ export interface FileRoutesByTo {
   '/en/shows': typeof EnShowsRoute
   '/ru/shows': typeof RuShowsRoute
   '/en': typeof EnIndexRoute
+  '/admin/ai': typeof AuthenticatedAdminAiRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/admin/finance': typeof AuthenticatedAdminFinanceRoute
@@ -193,6 +201,7 @@ export interface FileRoutesById {
   '/en/shows': typeof EnShowsRoute
   '/ru/shows': typeof RuShowsRoute
   '/en/': typeof EnIndexRoute
+  '/_authenticated/admin/ai': typeof AuthenticatedAdminAiRoute
   '/_authenticated/admin/content': typeof AuthenticatedAdminContentRoute
   '/_authenticated/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/_authenticated/admin/finance': typeof AuthenticatedAdminFinanceRoute
@@ -217,6 +226,7 @@ export interface FileRouteTypes {
     | '/en/shows'
     | '/ru/shows'
     | '/en/'
+    | '/admin/ai'
     | '/admin/content'
     | '/admin/enquiries'
     | '/admin/finance'
@@ -238,6 +248,7 @@ export interface FileRouteTypes {
     | '/en/shows'
     | '/ru/shows'
     | '/en'
+    | '/admin/ai'
     | '/admin/content'
     | '/admin/enquiries'
     | '/admin/finance'
@@ -261,6 +272,7 @@ export interface FileRouteTypes {
     | '/en/shows'
     | '/ru/shows'
     | '/en/'
+    | '/_authenticated/admin/ai'
     | '/_authenticated/admin/content'
     | '/_authenticated/admin/enquiries'
     | '/_authenticated/admin/finance'
@@ -349,6 +361,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/ai': {
+      id: '/_authenticated/admin/ai'
+      path: '/ai'
+      fullPath: '/admin/ai'
+      preLoaderRoute: typeof AuthenticatedAdminAiRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/content': {
@@ -446,6 +465,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminAiRoute: typeof AuthenticatedAdminAiRoute
   AuthenticatedAdminContentRoute: typeof AuthenticatedAdminContentRoute
   AuthenticatedAdminEnquiriesRoute: typeof AuthenticatedAdminEnquiriesRoute
   AuthenticatedAdminFinanceRoute: typeof AuthenticatedAdminFinanceRoute
@@ -456,6 +476,7 @@ interface AuthenticatedAdminRouteChildren {
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminAiRoute: AuthenticatedAdminAiRoute,
   AuthenticatedAdminContentRoute: AuthenticatedAdminContentRoute,
   AuthenticatedAdminEnquiriesRoute: AuthenticatedAdminEnquiriesRoute,
   AuthenticatedAdminFinanceRoute: AuthenticatedAdminFinanceRoute,

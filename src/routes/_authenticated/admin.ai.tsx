@@ -32,6 +32,18 @@ interface Session {
   ticket: { id: string; number: string; status: string } | null;
 }
 
+interface SessionDetailData {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  locale: string;
+  name: string;
+  phone: string;
+  status: string;
+  summary: string | null;
+  tickets: { id: string; number: string; reason: string; status: string; summary: string | null }[];
+}
+
 interface Message {
   id: string;
   role: "user" | "assistant";
@@ -54,7 +66,7 @@ function AiChatsPage() {
     queryFn: () =>
       fetchSessions({
         data: { search: search.trim() || undefined, locale, status, hasTicket },
-      }) as Promise<Session[]>,
+      }) as unknown as Promise<Session[]>,
   });
 
   const statusMutation = useMutation({
@@ -163,7 +175,11 @@ function AiChatsPage() {
                   sessionId={row.id}
                   initialSummary={row.summary ?? ""}
                   onUpdateSummary={(summary) =>
-                    statusMutation.mutate({ sessionId: row.id, status: row.status as "active" | "closed", summary })
+                    statusMutation.mutate({
+                      sessionId: row.id,
+                      status: row.status as "active" | "closed",
+                      summary,
+                    })
                   }
                 />
               ) : null}
@@ -190,13 +206,15 @@ function SessionDetail({
 
   const sessionQuery = useQuery({
     queryKey: ["admin", "chat-session", sessionId],
-    queryFn: () => fetchSession({ data: { sessionId } }) as Promise<Session>,
+    queryFn: () => fetchSession({ data: { sessionId } }) as unknown as Promise<SessionDetailData>,
   });
 
   const messagesQuery = useQuery({
     queryKey: ["admin", "chat-messages", sessionId],
-    queryFn: () => fetchMessages({ data: { sessionId } }) as Promise<Message[]>,
+    queryFn: () => fetchMessages({ data: { sessionId } }) as unknown as Promise<Message[]>,
   });
+
+  const ticket = (sessionQuery.data as SessionDetailData | undefined)?.tickets?.[0];
 
   return (
     <div className="mt-4 space-y-4 border-t border-border pt-4">
@@ -217,10 +235,9 @@ function SessionDetail({
             Сохранить
           </button>
         </div>
-        {(sessionQuery.data as Session | undefined)?.ticket ? (
+        {ticket ? (
           <p className="text-sm text-muted-foreground">
-            Тикет: #{(sessionQuery.data as Session).ticket!.number} ·{" "}
-            {(sessionQuery.data as Session).ticket!.status}
+            Тикет: #{ticket.number} · {ticket.status}
           </p>
         ) : null}
       </div>
