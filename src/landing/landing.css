@@ -1601,10 +1601,6 @@ html, .landing{
     object-fit: cover;
   }
 
-  .landing .diploma-row{
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
-  }
 
   .landing .enquiry-form .form{
     grid-template-columns: 1fr 1fr;
@@ -1628,14 +1624,8 @@ html, .landing{
     margin-inline: auto;
   }
 
-  .landing .diploma-row{
-    max-width: 56rem;
-  }
 }
 
-.landing .diploma-frame{
-  aspect-ratio: 1 / 1;
-}
 
 @media (min-width: 768px) {
   .landing .gallery-grid--compact{
