@@ -22,6 +22,15 @@ export function LandingPage({
     const root = ref.current;
     if (!root) return;
     applyOverrides(root, overrides ?? null, locale);
+
+    // On the English-first domain the home page is English, so "RU" must point to /ru.
+    if (window.location.hostname.replace(/^www\./, "").includes("norwichland")) {
+      root.querySelectorAll<HTMLAnchorElement>('a[href="/"]').forEach((a) => {
+        if (a.textContent?.trim().toUpperCase() === "RU" || a.hreflang === "ru") {
+          a.setAttribute("href", "/ru");
+        }
+      });
+    }
     const cleanup = initLanding(root, {
       onSubmit: async (values) =>
         submitEnquiry({

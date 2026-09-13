@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as EnIndexRouteImport } from './routes/en.index'
 import { Route as EnShowsRouteImport } from './routes/en.shows'
+import { Route as RuIndexRouteImport } from './routes/ru.index'
 import { Route as RuShowsRouteImport } from './routes/ru.shows'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAiRouteImport } from './routes/_authenticated/admin.ai'
@@ -62,6 +63,11 @@ const EnIndexRoute = EnIndexRouteImport.update({
 const EnShowsRoute = EnShowsRouteImport.update({
   id: '/en/shows',
   path: '/en/shows',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RuIndexRoute = RuIndexRouteImport.update({
+  id: '/ru/',
+  path: '/ru/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RuShowsRoute = RuShowsRouteImport.update({
@@ -175,6 +181,7 @@ export interface FileRoutesByFullPath {
   '/en/shows': typeof EnShowsRoute
   '/ru/shows': typeof RuShowsRoute
   '/en/': typeof EnIndexRoute
+  '/ru/': typeof RuIndexRoute
   '/admin/ai': typeof AuthenticatedAdminAiRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
@@ -200,6 +207,7 @@ export interface FileRoutesByTo {
   '/en/shows': typeof EnShowsRoute
   '/ru/shows': typeof RuShowsRoute
   '/en': typeof EnIndexRoute
+  '/ru': typeof RuIndexRoute
   '/admin/ai': typeof AuthenticatedAdminAiRoute
   '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
@@ -228,6 +236,7 @@ export interface FileRoutesById {
   '/en/shows': typeof EnShowsRoute
   '/ru/shows': typeof RuShowsRoute
   '/en/': typeof EnIndexRoute
+  '/ru/': typeof RuIndexRoute
   '/_authenticated/admin/ai': typeof AuthenticatedAdminAiRoute
   '/_authenticated/admin/content': typeof AuthenticatedAdminContentRoute
   '/_authenticated/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
@@ -256,6 +265,7 @@ export interface FileRouteTypes {
     | '/en/shows'
     | '/ru/shows'
     | '/en/'
+    | '/ru/'
     | '/admin/ai'
     | '/admin/content'
     | '/admin/enquiries'
@@ -281,6 +291,7 @@ export interface FileRouteTypes {
     | '/en/shows'
     | '/ru/shows'
     | '/en'
+    | '/ru'
     | '/admin/ai'
     | '/admin/content'
     | '/admin/enquiries'
@@ -308,6 +319,7 @@ export interface FileRouteTypes {
     | '/en/shows'
     | '/ru/shows'
     | '/en/'
+    | '/ru/'
     | '/_authenticated/admin/ai'
     | '/_authenticated/admin/content'
     | '/_authenticated/admin/enquiries'
@@ -335,6 +347,7 @@ export interface RootRouteChildren {
   EnShowsRoute: typeof EnShowsRoute
   RuShowsRoute: typeof RuShowsRoute
   EnIndexRoute: typeof EnIndexRoute
+  RuIndexRoute: typeof RuIndexRoute
   EnLegalOfferRoute: typeof EnLegalOfferRoute
   EnLegalPrivacyRoute: typeof EnLegalPrivacyRoute
   EnLegalTermsRoute: typeof EnLegalTermsRoute
@@ -387,6 +400,13 @@ declare module '@tanstack/react-router' {
       path: '/en/shows'
       fullPath: '/en/shows'
       preLoaderRoute: typeof EnShowsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ru/': {
+      id: '/ru/'
+      path: '/ru'
+      fullPath: '/ru/'
+      preLoaderRoute: typeof RuIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ru/shows': {
@@ -572,6 +592,7 @@ const rootRouteChildren: RootRouteChildren = {
   EnShowsRoute: EnShowsRoute,
   RuShowsRoute: RuShowsRoute,
   EnIndexRoute: EnIndexRoute,
+  RuIndexRoute: RuIndexRoute,
   EnLegalOfferRoute: EnLegalOfferRoute,
   EnLegalPrivacyRoute: EnLegalPrivacyRoute,
   EnLegalTermsRoute: EnLegalTermsRoute,
