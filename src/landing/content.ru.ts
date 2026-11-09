@@ -1,18 +1,29 @@
 import a0 from "@/assets/pari-hero.jpg.asset.json";
 import a1 from "@/assets/pari-portrait-01.jpg.asset.json";
 import a2 from "@/assets/pari-show-career.jpg.asset.json";
-import a3 from "@/assets/diploma-jch-arm.jpg.asset.json";
-import a4 from "@/assets/diploma-jgrch-arm.jpg.asset.json";
+import a3 from "@/assets/diploma-jch-arm-2026.jpg.asset.json";
+import a4 from "@/assets/diploma-jgrch-arm-2026.jpg.asset.json";
 import a5 from "@/assets/diploma-jch-hrv.jpg.asset.json";
 import a6 from "@/assets/diploma-jch-rus.jpg.asset.json";
 import a7 from "@/assets/diploma-jgrch-rus.jpg.asset.json";
 import a8 from "@/assets/diploma-jshch-rus.jpg.asset.json";
-import a9 from "@/assets/diploma-cisj-winner.jpg.asset.json";
+import a9 from "@/assets/diploma-cisj-winner-2026.jpg.asset.json";
 import a10 from "@/assets/pari-live-log.jpg.asset.json";
 import a11 from "@/assets/pari-live-awards.jpg.asset.json";
 import a12 from "@/assets/pari-show-minsk-podium.jpg.asset.json";
 
+import a13 from "@/assets/diploma-jch-blr-2026.jpg.asset.json";
+import a14 from "@/assets/diploma-ch-slo-2026.jpg.asset.json";
+import a15 from "@/assets/diploma-abruzzo-winner-2026.jpg.asset.json";
+import a16 from "@/assets/diploma-alpensieger-2026.jpg.asset.json";
+import a17 from "@/assets/diploma-show-ch-swiss-2026.jpg.asset.json";
+
 const IMG: Record<string, string> = {
+  "diploma-jch-blr-2026.jpg": a13.url,
+  "diploma-ch-slo-2026.jpg": a14.url,
+  "diploma-abruzzo-winner-2026.jpg": a15.url,
+  "diploma-alpensieger-2026.jpg": a16.url,
+  "diploma-show-ch-swiss-2026.jpg": a17.url,
   "pari-hero.jpg": a0.url,
   "pari-portrait-01.jpg": a1.url,
   "pari-show-career.jpg": a2.url,
@@ -115,7 +126,7 @@ export const bodyHtml = `
         <article class="pillar"><h3>Международная стратегия</h3><p>Партнёры будут рассматриваться с учётом типа и разнообразия линий, а не ближайшего удобства.</p></article>
       </div>
       <div class="diploma-block" data-gallery>
-    <div class="diploma-row"><button type="button" class="diploma-card" data-caption="Юный чемпион Армении"><span class="diploma-frame"><img src="${IMG["diploma-jch-arm.jpg"]}" alt="Юный чемпион Армении" /></span><span class="diploma-label">Юный чемпион Армении</span></button><button type="button" class="diploma-card" data-caption="Юный гранд чемпион Армении"><span class="diploma-frame"><img src="${IMG["diploma-jgrch-arm.jpg"]}" alt="Юный гранд чемпион Армении" /></span><span class="diploma-label">Юный гранд чемпион Армении</span></button><button type="button" class="diploma-card" data-caption="Юный чемпион Хорватии"><span class="diploma-frame"><img src="${IMG["diploma-jch-hrv.jpg"]}" alt="Юный чемпион Хорватии" /></span><span class="diploma-label">Юный чемпион Хорватии</span></button><button type="button" class="diploma-card" data-caption="Юный чемпион России"><span class="diploma-frame"><img src="${IMG["diploma-jch-rus.jpg"]}" alt="Юный чемпион России" /></span><span class="diploma-label">Юный чемпион России</span></button><button type="button" class="diploma-card" data-caption="Юный гранд чемпион России"><span class="diploma-frame"><img src="${IMG["diploma-jgrch-rus.jpg"]}" alt="Юный гранд чемпион России" /></span><span class="diploma-label">Юный гранд чемпион России</span></button><button type="button" class="diploma-card" data-caption="Юный шоу чемпион России"><span class="diploma-frame"><img src="${IMG["diploma-jshch-rus.jpg"]}" alt="Юный шоу чемпион России" /></span><span class="diploma-label">Юный шоу чемпион России</span></button><button type="button" class="diploma-card" data-caption="Юный победитель СНГ"><span class="diploma-frame"><img src="${IMG["diploma-cisj-winner.jpg"]}" alt="Юный победитель СНГ" /></span><span class="diploma-label">Юный победитель СНГ</span></button></div>
+    <div class="diploma-row"><button type="button" class="diploma-card" data-caption="Юный чемпион Армении"><span class="diploma-frame"><img src="${IMG["diploma-jch-arm.jpg"]}" alt="Юный чемпион Армении" /></span><span class="diploma-label">Юный чемпион Армении</span></button><button type="button" class="diploma-card" data-caption="Юный гранд чемпион Армении"><span class="diploma-frame"><img src="${IMG["diploma-jgrch-arm.jpg"]}" alt="Юный гранд чемпион Армении" /></span><span class="diploma-label">Юный гранд чемпион Армении</span></button><button type="button" class="diploma-card" data-caption="Юный чемпион Хорватии"><span class="diploma-frame"><img src="${IMG["diploma-jch-hrv.jpg"]}" alt="Юный чемпион Хорватии" /></span><span class="diploma-label">Юный чемпион Хорватии</span></button><button type="button" class="diploma-card" data-caption="Юный чемпион России"><span class="diploma-frame"><img src="${IMG["diploma-jch-rus.jpg"]}" alt="Юный чемпион России" /></span><span class="diploma-label">Юный чемпион России</span></button><button type="button" class="diploma-card" data-caption="Юный гранд чемпион России"><span class="diploma-frame"><img src="${IMG["diploma-jgrch-rus.jpg"]}" alt="Юный гранд чемпион России" /></span><span class="diploma-label">Юный гранд чемпион России</span></button><button type="button" class="diploma-card" data-caption="Юный шоу чемпион России"><span class="diploma-frame"><img src="${IMG["diploma-jshch-rus.jpg"]}" alt="Юный шоу чемпион России" /></span><span class="diploma-label">Юный шоу чемпион России</span></button><button type="button" class="diploma-card" data-caption="Юный победитель СНГ"><span class="diploma-frame"><img src="${IMG["diploma-cisj-winner.jpg"]}" alt="Юный победитель СНГ" /></span><span class="diploma-label">Юный победитель СНГ</span></button><button type="button" class="diploma-card" data-caption="Юный чемпион Беларуси"><span class="diploma-frame"><img src="${IMG["diploma-jch-blr-2026.jpg"]}" alt="Юный чемпион Беларуси" loading="lazy" /></span><span class="diploma-label">Юный чемпион Беларуси</span></button><button type="button" class="diploma-card" data-caption="Чемпион Словении"><span class="diploma-frame"><img src="${IMG["diploma-ch-slo-2026.jpg"]}" alt="Чемпион Словении" loading="lazy" /></span><span class="diploma-label">Чемпион Словении</span></button><button type="button" class="diploma-card" data-caption="Abruzzo Winner 2026 · BOB"><span class="diploma-frame"><img src="${IMG["diploma-abruzzo-winner-2026.jpg"]}" alt="Abruzzo Winner 2026 · BOB" loading="lazy" /></span><span class="diploma-label">Abruzzo Winner 2026 · BOB</span></button><button type="button" class="diploma-card" data-caption="Alpensieger 2026"><span class="diploma-frame"><img src="${IMG["diploma-alpensieger-2026.jpg"]}" alt="Alpensieger 2026" loading="lazy" /></span><span class="diploma-label">Alpensieger 2026</span></button><button type="button" class="diploma-card" data-caption="Шоу чемпион Швейцарии"><span class="diploma-frame"><img src="${IMG["diploma-show-ch-swiss-2026.jpg"]}" alt="Шоу чемпион Швейцарии" loading="lazy" /></span><span class="diploma-label">Шоу чемпион Швейцарии</span></button></div>
     <div class="lightbox" data-lightbox hidden role="dialog" aria-modal="true">
       <div class="lightbox-bar"><p data-lightbox-caption></p><button class="btn btn-ghost" type="button" data-lightbox-close>Закрыть просмотр</button></div>
       <div class="lightbox-stage"><img alt="" /></div>
