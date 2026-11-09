@@ -358,3 +358,6 @@
     padding: 0.75rem;
   }
 }
+
+.chat-disclosure { font-size:.7rem; line-height:1.4; margin:.4rem 0 0; color:var(--charcoal); opacity:.75; flex-shrink:0; }
+.chat-ctas { grid-template-columns:1fr; }
