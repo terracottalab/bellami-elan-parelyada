@@ -2,7 +2,8 @@ import { useEffect, useRef } from "react";
 
 import { initLanding } from "./behavior";
 import { applyOverrides, type SiteOverrides } from "./overrides";
-import { submitEnquiry, trackPageView } from "@/lib/public.functions";
+import { CookieConsent } from "@/components/CookieConsent";
+import { trackGoal } from "./analytics";
 import { ChatWidget } from "@/components/ChatWidget";
 import "./landing.css";
 import "@/components/chat-widget.css";
@@ -31,44 +32,24 @@ export function LandingPage({
         }
       });
     }
-    const cleanup = initLanding(root, {
-      onSubmit: async (values) =>
-        submitEnquiry({
-          data: {
-            locale,
-            name: values["name"] ?? "",
-            place: values["place"] ?? "",
-            email: values["email"] ?? "",
-            preferredContact: values["preferredContact"] ?? "",
-            handle: values["handle"] ?? "",
-            timing: values["timing"] ?? "",
-            purpose: values["purpose"] ?? "",
-            experience: values["experience"] ?? "",
-            whyNorwich: values["whyNorwich"] ?? "",
-            message: values["message"] ?? "",
-            consent: values["consent"] ?? "",
-            website: values["website"] ?? "",
-            fax_leave_empty: values["fax_leave_empty"] ?? "",
-          },
-        }),
-    });
-    return cleanup;
-  }, [html, locale]);
-
-  useEffect(() => {
-    void trackPageView({
-      data: {
-        path: window.location.pathname,
-        locale,
-        referrer: document.referrer.slice(0, 500),
-      },
-    }).catch(() => undefined);
-  }, [locale]);
+    document.documentElement.lang = locale;
+    const cleanup = initLanding(root);
+    const goals = (event: MouseEvent) => {
+      const link = (event.target as HTMLElement).closest<HTMLAnchorElement>("a");
+      if (!link) return;
+      if (link.dataset["goal"] === "click_vk") trackGoal("click_vk");
+      if (link.dataset["goal"] === "click_email") trackGoal("click_email");
+      if (/\/(ru|en)\/shows$/.test(link.getAttribute("href") ?? "")) trackGoal("open_shows");
+    };
+    root.addEventListener("click", goals);
+    return () => { cleanup(); root.removeEventListener("click", goals); };
+  }, [html, locale, overrides]);
 
   return (
     <>
       <div className="landing" ref={ref} dangerouslySetInnerHTML={{ __html: html }} />
-      <ChatWidget />
+      <ChatWidget initialLocale={locale} />
+      <CookieConsent locale={locale} />
     </>
   );
 }

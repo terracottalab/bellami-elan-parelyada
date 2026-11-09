@@ -2,13 +2,10 @@ type Cleanup = () => void;
 
 /**
  * Interactive behaviour of the landing page (menu, gallery lightbox, show
- * filters, enquiry form). Ported from the original site.js.
+ * filters). Ported from the original site.js.
  */
 export function initLanding(
   root: HTMLElement,
-  options: {
-    onSubmit: (values: Record<string, string>) => Promise<{ ok: boolean; message?: string }>;
-  },
 ): Cleanup {
   const cleanups: Cleanup[] = [];
   const on = <K extends keyof HTMLElementEventMap>(
@@ -68,7 +65,7 @@ export function initLanding(
       const item = visible[index];
       const img = item?.querySelector("img");
       if (stage && img) {
-        stage.src = img.src;
+        stage.src = img.dataset["original"] ?? img.src;
         stage.alt = img.alt;
       }
       if (caption) caption.textContent = item?.dataset["caption"] || img?.alt || "";
@@ -89,6 +86,9 @@ export function initLanding(
     items.forEach((item, i) => on(item, "click", () => show(i)));
     on(lightbox?.querySelector("[data-lightbox-close]"), "click", () => {
       if (lightbox) lightbox.hidden = true;
+    });
+    on(lightbox, "click", (event) => {
+      if (lightbox && (event.target === lightbox || (event.target as HTMLElement).classList.contains("lightbox-stage"))) lightbox.hidden = true;
     });
     on(lightbox?.querySelector("[data-lightbox-prev]"), "click", () => show(index - 1));
     on(lightbox?.querySelector("[data-lightbox-next]"), "click", () => show(index + 1));
@@ -122,85 +122,6 @@ export function initLanding(
       if (empty) empty.hidden = shown > 0;
     };
     [year, country, klass].forEach((el) => on(el, "change", apply));
-  }
-
-  const form = root.querySelector<HTMLFormElement>("[data-enquiry-form]");
-  if (form) {
-    const alertBox = form.querySelector<HTMLElement>("[data-form-alert]");
-    const panel = root.querySelector<HTMLElement>("[data-success]");
-
-    on(form, "submit", (event) => {
-      event.preventDefault();
-      const required = form.dataset["required"] || "Required";
-      const invalidEmail = form.dataset["invalidEmail"] || "Invalid email";
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      let ok = true;
-      form.querySelectorAll(".field").forEach((field) => field.classList.remove("is-invalid"));
-      const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
-      const consentEl = form.querySelector<HTMLInputElement>("[name=consent]");
-      const checks: Array<[string, boolean, string]> = [
-        ["name", !String(data["name"] || "").trim(), required],
-        ["place", !String(data["place"] || "").trim(), required],
-        ["email", !String(data["email"] || "").trim(), required],
-        [
-          "email",
-          Boolean(data["email"]) && !emailPattern.test(String(data["email"])),
-          invalidEmail,
-        ],
-        ["preferredContact", !data["preferredContact"], required],
-        ["timing", !data["timing"], required],
-        ["purpose", !data["purpose"], required],
-        ["experience", !data["experience"], required],
-        ["whyNorwich", !String(data["whyNorwich"] || "").trim(), required],
-        ["consent", !consentEl?.checked, required],
-      ];
-      checks.forEach(([name, fail, message]) => {
-        if (!fail) return;
-        ok = false;
-        const field = form.querySelector(`[name="${name}"]`)?.closest(".field");
-        if (field) {
-          field.classList.add("is-invalid");
-          const err = field.querySelector(".error");
-          if (err) err.textContent = message;
-        }
-      });
-      if (!ok) {
-        if (alertBox) alertBox.hidden = false;
-        return;
-      }
-      if (alertBox) alertBox.hidden = true;
-
-      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-      if (button) button.disabled = true;
-
-      void options
-        .onSubmit({ ...data, consent: consentEl?.checked ? "1" : "" })
-        .then((result) => {
-          if (result.ok) {
-            form.hidden = true;
-            if (panel) panel.hidden = false;
-            root.querySelector("#puppy-application")?.scrollIntoView();
-            return;
-          }
-          if (button) button.disabled = false;
-          if (alertBox) {
-            alertBox.hidden = false;
-            alertBox.textContent =
-              result.message ||
-              form.dataset["sendError"] ||
-              "Не удалось отправить. Напишите на contact@norwichterrier.info";
-          }
-        })
-        .catch(() => {
-          if (button) button.disabled = false;
-          if (alertBox) {
-            alertBox.hidden = false;
-            alertBox.textContent =
-              form.dataset["sendError"] ||
-              "Не удалось отправить. Напишите на contact@norwichterrier.info";
-          }
-        });
-    });
   }
 
   return () => {

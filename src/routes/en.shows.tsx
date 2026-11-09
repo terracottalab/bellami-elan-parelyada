@@ -1,3 +1,4 @@
+import { publicPageLinks } from "@/landing/public-site";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { LandingPage } from "@/landing/LandingPage";
@@ -12,6 +13,7 @@ import { listPublicShows } from "@/lib/public.functions";
 export const Route = createFileRoute("/en/shows")({
   loader: () => listPublicShows(),
   head: () => ({
+    links: publicPageLinks("en", "/shows"),
     meta: [
       { title: showsTitleEn },
       { name: "description", content: showsDescriptionEn },
