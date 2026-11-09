@@ -1,17 +1,18 @@
-import { describe, expect, test } from "bun:test";
+import { describe, test } from "node:test";
+import { strict as assert } from "node:assert";
 import { analyticsAllowed } from "./analytics";
 
 describe("explicit analytics consent", () => {
   test("no tracking before Accept", () => {
-    expect(analyticsAllowed(null, 123456)).toBe(false);
+    assert.equal(analyticsAllowed(null, 123456), false);
   });
   test("Decline never enables tracking", () => {
-    expect(analyticsAllowed("declined", 123456)).toBe(false);
+    assert.equal(analyticsAllowed("declined", 123456), false);
   });
   test("Accept enables a configured counter", () => {
-    expect(analyticsAllowed("accepted", 123456)).toBe(true);
+    assert.equal(analyticsAllowed("accepted", 123456), true);
   });
   test("no counter means no tracking even after Accept", () => {
-    expect(analyticsAllowed("accepted", null)).toBe(false);
+    assert.equal(analyticsAllowed("accepted", null), false);
   });
 });
