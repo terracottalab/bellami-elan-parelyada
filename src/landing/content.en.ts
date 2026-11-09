@@ -147,7 +147,7 @@ export const bodyHtml = `
       <strong>Bellami-Elan Parelyada</strong>
       <p class="caption">Беллами-Елан Парельяда</p>
       <p class="caption">Junior International Champion</p>
-      <p class="pedigree-titles">JGrCH.RUS, JCH.RKF, JCH.RUS, BJCH.RUS, CISJ Winner, RUS BJW, JSHCH RUS, JSHCH RG, JCH GRGP, JCH.HCC, GJCH.ARM, JCH.ARM, JCH.HRV, RKF BW</p>
+      <p class="pedigree-titles">CH.RUS, CH.SchWZ, CH.SVN, JGrCH.RUS, JCH.RKF, JCH.INT, JCH.RUS, BJCH.RUS, CISJ Winner, RUS BJW, JSHCH RUS, JSHCH RG, JCH GRGP, JCH.HCC, GJCH.ARM, JCH.ARM, JCH.BLR, JCH.HRV, RKF BW, BYJW</p>
       
       <p class="caption">RKF 7350728 · red · tattoo BLQ 194</p>
     </div></details>
@@ -273,7 +273,7 @@ export const bodyHtml = `
       <strong>Bellami-Elan Parelyada</strong>
       <p class="caption">Беллами-Елан Парельяда</p>
       <p class="caption">Junior International Champion</p>
-      <p class="pedigree-titles">JGrCH.RUS, JCH.RKF, JCH.RUS, BJCH.RUS, CISJ Winner, RUS BJW, JSHCH RUS, JSHCH RG, JCH GRGP, JCH.HCC, GJCH.ARM, JCH.ARM, JCH.HRV, RKF BW</p>
+      <p class="pedigree-titles">CH.RUS, CH.SchWZ, CH.SVN, JGrCH.RUS, JCH.RKF, JCH.INT, JCH.RUS, BJCH.RUS, CISJ Winner, RUS BJW, JSHCH RUS, JSHCH RG, JCH GRGP, JCH.HCC, GJCH.ARM, JCH.ARM, JCH.BLR, JCH.HRV, RKF BW, BYJW</p>
       
       <p class="caption">RKF 7350728 · red · tattoo BLQ 194</p>
     </div></div>
