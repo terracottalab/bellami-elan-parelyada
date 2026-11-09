@@ -1,3 +1,5 @@
+import { trackGoal } from "./analytics";
+
 type Cleanup = () => void;
 
 /**
@@ -44,6 +46,22 @@ export function initLanding(
   });
   menu?.querySelectorAll('a[href^="#"]').forEach((link) => {
     on(link, "click", () => setOpen(false));
+  });
+
+  root.querySelectorAll<HTMLButtonElement>("[data-copy-email]").forEach((button) => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const label = button.textContent;
+    on(button, "click", () => {
+      const email = button.dataset["copyEmail"];
+      if (!email) return;
+      void navigator.clipboard.writeText(email).then(() => {
+        trackGoal("copy_email");
+        button.textContent = button.dataset["copied"] ?? label;
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => { button.textContent = label; }, 2000);
+      }).catch(() => { /* Keep the visible address available for manual copying. */ });
+    });
+    cleanups.push(() => { if (timer) clearTimeout(timer); });
   });
 
   root.querySelectorAll<HTMLElement>("[data-gallery]").forEach((gallery) => {
