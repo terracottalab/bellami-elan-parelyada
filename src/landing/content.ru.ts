@@ -1,3 +1,4 @@
+import { previewFor } from "./image-previews";
 import { contactsHtml, footerHtml } from "./public-site";
 import a0 from "@/assets/pari-hero.jpg.asset.json";
 import a1 from "@/assets/pari-portrait-01.jpg.asset.json";
@@ -19,44 +20,6 @@ import a15 from "@/assets/diploma-abruzzo-winner-2026.jpg.asset.json";
 import a16 from "@/assets/diploma-alpensieger-2026.jpg.asset.json";
 import a17 from "@/assets/diploma-show-ch-swiss-2026.jpg.asset.json";
 
-import p0 from "@/assets/pari-hero-600.webp.asset.json";
-import p1 from "@/assets/pari-portrait-01-600.webp.asset.json";
-import p2 from "@/assets/pari-show-career-600.webp.asset.json";
-import p3 from "@/assets/diploma-jch-arm-2026-600.webp.asset.json";
-import p4 from "@/assets/diploma-jgrch-arm-2026-600.webp.asset.json";
-import p5 from "@/assets/diploma-jch-hrv-600.webp.asset.json";
-import p6 from "@/assets/diploma-jch-rus-600.webp.asset.json";
-import p7 from "@/assets/diploma-jgrch-rus-600.webp.asset.json";
-import p8 from "@/assets/diploma-jshch-rus-600.webp.asset.json";
-import p9 from "@/assets/diploma-cisj-winner-2026-600.webp.asset.json";
-import p10 from "@/assets/pari-live-log-600.webp.asset.json";
-import p11 from "@/assets/pari-live-awards-600.webp.asset.json";
-import p12 from "@/assets/pari-show-minsk-podium-600.webp.asset.json";
-import p13 from "@/assets/diploma-jch-blr-2026-600.webp.asset.json";
-import p14 from "@/assets/diploma-ch-slo-2026-600.webp.asset.json";
-import p15 from "@/assets/diploma-abruzzo-winner-2026-600.webp.asset.json";
-import p16 from "@/assets/diploma-alpensieger-2026-600.webp.asset.json";
-import p17 from "@/assets/diploma-show-ch-swiss-2026-600.webp.asset.json";
-const PREVIEW: Record<string, string> = {
-  [a0.url]: p0.url,
-  [a1.url]: p1.url,
-  [a2.url]: p2.url,
-  [a3.url]: p3.url,
-  [a4.url]: p4.url,
-  [a5.url]: p5.url,
-  [a6.url]: p6.url,
-  [a7.url]: p7.url,
-  [a8.url]: p8.url,
-  [a9.url]: p9.url,
-  [a10.url]: p10.url,
-  [a11.url]: p11.url,
-  [a12.url]: p12.url,
-  [a13.url]: p13.url,
-  [a14.url]: p14.url,
-  [a15.url]: p15.url,
-  [a16.url]: p16.url,
-  [a17.url]: p17.url,
-};
 const IMG: Record<string, string> = {
   "diploma-jch-blr-2026.jpg": a13.url,
   "diploma-ch-slo-2026.jpg": a14.url,
@@ -125,7 +88,7 @@ export const bodyHtml = `
       </div>
     </section>
     <section class="section meet-section" id="about"><div class="container-wide split split-top split-fit">
-      <div class="media-frame split-fit-photo"><img loading="lazy" data-original="${IMG["pari-portrait-01.jpg"]}" src="${PREVIEW[IMG["pari-portrait-01.jpg"]] ?? IMG["pari-portrait-01.jpg"]}" alt="Норвич-терьер Bellami-Elan Parelyada (Пари)" /></div>
+      <div class="media-frame split-fit-photo"><img loading="lazy" data-original="${IMG["pari-portrait-01.jpg"]}" src="${previewFor(IMG["pari-portrait-01.jpg"])}" alt="Норвич-терьер Bellami-Elan Parelyada (Пари)" /></div>
       <div class="meet-copy">
         <p class="eyebrow">Знакомство</p>
         <h2>Маленький терьер с характером настоящей большой собаки</h2>
@@ -152,7 +115,7 @@ export const bodyHtml = `
         </div>
         <p class="caption">Полный список выставок, оценок, экспертов и сертификатов доступен здесь по кнопке.</p>
       </div>
-      <div class="media-frame show-career-photo"><img loading="lazy" data-original="${IMG["pari-show-career.jpg"]}" src="${PREVIEW[IMG["pari-show-career.jpg"]] ?? IMG["pari-show-career.jpg"]}" alt="Bellami-Elan Parelyada на выставке" /></div>
+      <div class="media-frame show-career-photo"><img loading="lazy" data-original="${IMG["pari-show-career.jpg"]}" src="${previewFor(IMG["pari-show-career.jpg"])}" alt="Bellami-Elan Parelyada на выставке" /></div>
     </div></section>
     <section class="section"><div class="container-wide">
       <p class="eyebrow">Почему Пари</p><h2>Основа будущей программы</h2>
@@ -164,7 +127,7 @@ export const bodyHtml = `
         <article class="pillar"><h3>Международная стратегия</h3><p>Партнёры будут рассматриваться с учётом типа и разнообразия линий, а не ближайшего удобства.</p></article>
       </div>
       <div class="diploma-block" data-gallery>
-    <div class="diploma-row"><button type="button" class="diploma-card" data-caption="Юный чемпион Армении"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jch-arm.jpg"]}" src="${PREVIEW[IMG["diploma-jch-arm.jpg"]] ?? IMG["diploma-jch-arm.jpg"]}" alt="Юный чемпион Армении" /></span><span class="diploma-label">Юный чемпион Армении</span></button><button type="button" class="diploma-card" data-caption="Юный гранд чемпион Армении"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jgrch-arm.jpg"]}" src="${PREVIEW[IMG["diploma-jgrch-arm.jpg"]] ?? IMG["diploma-jgrch-arm.jpg"]}" alt="Юный гранд чемпион Армении" /></span><span class="diploma-label">Юный гранд чемпион Армении</span></button><button type="button" class="diploma-card" data-caption="Юный чемпион Хорватии"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jch-hrv.jpg"]}" src="${PREVIEW[IMG["diploma-jch-hrv.jpg"]] ?? IMG["diploma-jch-hrv.jpg"]}" alt="Юный чемпион Хорватии" /></span><span class="diploma-label">Юный чемпион Хорватии</span></button><button type="button" class="diploma-card" data-caption="Юный чемпион России"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jch-rus.jpg"]}" src="${PREVIEW[IMG["diploma-jch-rus.jpg"]] ?? IMG["diploma-jch-rus.jpg"]}" alt="Юный чемпион России" /></span><span class="diploma-label">Юный чемпион России</span></button><button type="button" class="diploma-card" data-caption="Юный гранд чемпион России"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jgrch-rus.jpg"]}" src="${PREVIEW[IMG["diploma-jgrch-rus.jpg"]] ?? IMG["diploma-jgrch-rus.jpg"]}" alt="Юный гранд чемпион России" /></span><span class="diploma-label">Юный гранд чемпион России</span></button><button type="button" class="diploma-card" data-caption="Юный шоу чемпион России"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jshch-rus.jpg"]}" src="${PREVIEW[IMG["diploma-jshch-rus.jpg"]] ?? IMG["diploma-jshch-rus.jpg"]}" alt="Юный шоу чемпион России" /></span><span class="diploma-label">Юный шоу чемпион России</span></button><button type="button" class="diploma-card" data-caption="Юный победитель СНГ"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-cisj-winner.jpg"]}" src="${PREVIEW[IMG["diploma-cisj-winner.jpg"]] ?? IMG["diploma-cisj-winner.jpg"]}" alt="Юный победитель СНГ" /></span><span class="diploma-label">Юный победитель СНГ</span></button><button type="button" class="diploma-card" data-caption="Юный чемпион Беларуси"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jch-blr-2026.jpg"]}" src="${PREVIEW[IMG["diploma-jch-blr-2026.jpg"]] ?? IMG["diploma-jch-blr-2026.jpg"]}" alt="Юный чемпион Беларуси" /></span><span class="diploma-label">Юный чемпион Беларуси</span></button><button type="button" class="diploma-card" data-caption="Чемпион Словении"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-ch-slo-2026.jpg"]}" src="${PREVIEW[IMG["diploma-ch-slo-2026.jpg"]] ?? IMG["diploma-ch-slo-2026.jpg"]}" alt="Чемпион Словении" /></span><span class="diploma-label">Чемпион Словении</span></button><button type="button" class="diploma-card" data-caption="Abruzzo Winner 2026 · BOB"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-abruzzo-winner-2026.jpg"]}" src="${PREVIEW[IMG["diploma-abruzzo-winner-2026.jpg"]] ?? IMG["diploma-abruzzo-winner-2026.jpg"]}" alt="Abruzzo Winner 2026 · BOB" /></span><span class="diploma-label">Abruzzo Winner 2026 · BOB</span></button><button type="button" class="diploma-card" data-caption="Alpensieger 2026"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-alpensieger-2026.jpg"]}" src="${PREVIEW[IMG["diploma-alpensieger-2026.jpg"]] ?? IMG["diploma-alpensieger-2026.jpg"]}" alt="Alpensieger 2026" /></span><span class="diploma-label">Alpensieger 2026</span></button><button type="button" class="diploma-card" data-caption="Шоу чемпион Швейцарии"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-show-ch-swiss-2026.jpg"]}" src="${PREVIEW[IMG["diploma-show-ch-swiss-2026.jpg"]] ?? IMG["diploma-show-ch-swiss-2026.jpg"]}" alt="Шоу чемпион Швейцарии" /></span><span class="diploma-label">Шоу чемпион Швейцарии</span></button></div>
+    <div class="diploma-row"><button type="button" class="diploma-card" data-caption="Юный чемпион Армении"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jch-arm.jpg"]}" src="${previewFor(IMG["diploma-jch-arm.jpg"])}" alt="Юный чемпион Армении" /></span><span class="diploma-label">Юный чемпион Армении</span></button><button type="button" class="diploma-card" data-caption="Юный гранд чемпион Армении"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jgrch-arm.jpg"]}" src="${previewFor(IMG["diploma-jgrch-arm.jpg"])}" alt="Юный гранд чемпион Армении" /></span><span class="diploma-label">Юный гранд чемпион Армении</span></button><button type="button" class="diploma-card" data-caption="Юный чемпион Хорватии"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jch-hrv.jpg"]}" src="${previewFor(IMG["diploma-jch-hrv.jpg"])}" alt="Юный чемпион Хорватии" /></span><span class="diploma-label">Юный чемпион Хорватии</span></button><button type="button" class="diploma-card" data-caption="Юный чемпион России"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jch-rus.jpg"]}" src="${previewFor(IMG["diploma-jch-rus.jpg"])}" alt="Юный чемпион России" /></span><span class="diploma-label">Юный чемпион России</span></button><button type="button" class="diploma-card" data-caption="Юный гранд чемпион России"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jgrch-rus.jpg"]}" src="${previewFor(IMG["diploma-jgrch-rus.jpg"])}" alt="Юный гранд чемпион России" /></span><span class="diploma-label">Юный гранд чемпион России</span></button><button type="button" class="diploma-card" data-caption="Юный шоу чемпион России"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jshch-rus.jpg"]}" src="${previewFor(IMG["diploma-jshch-rus.jpg"])}" alt="Юный шоу чемпион России" /></span><span class="diploma-label">Юный шоу чемпион России</span></button><button type="button" class="diploma-card" data-caption="Юный победитель СНГ"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-cisj-winner.jpg"]}" src="${previewFor(IMG["diploma-cisj-winner.jpg"])}" alt="Юный победитель СНГ" /></span><span class="diploma-label">Юный победитель СНГ</span></button><button type="button" class="diploma-card" data-caption="Юный чемпион Беларуси"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-jch-blr-2026.jpg"]}" src="${previewFor(IMG["diploma-jch-blr-2026.jpg"])}" alt="Юный чемпион Беларуси" /></span><span class="diploma-label">Юный чемпион Беларуси</span></button><button type="button" class="diploma-card" data-caption="Чемпион Словении"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-ch-slo-2026.jpg"]}" src="${previewFor(IMG["diploma-ch-slo-2026.jpg"])}" alt="Чемпион Словении" /></span><span class="diploma-label">Чемпион Словении</span></button><button type="button" class="diploma-card" data-caption="Abruzzo Winner 2026 · BOB"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-abruzzo-winner-2026.jpg"]}" src="${previewFor(IMG["diploma-abruzzo-winner-2026.jpg"])}" alt="Abruzzo Winner 2026 · BOB" /></span><span class="diploma-label">Abruzzo Winner 2026 · BOB</span></button><button type="button" class="diploma-card" data-caption="Alpensieger 2026"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-alpensieger-2026.jpg"]}" src="${previewFor(IMG["diploma-alpensieger-2026.jpg"])}" alt="Alpensieger 2026" /></span><span class="diploma-label">Alpensieger 2026</span></button><button type="button" class="diploma-card" data-caption="Шоу чемпион Швейцарии"><span class="diploma-frame"><img loading="lazy" data-original="${IMG["diploma-show-ch-swiss-2026.jpg"]}" src="${previewFor(IMG["diploma-show-ch-swiss-2026.jpg"])}" alt="Шоу чемпион Швейцарии" /></span><span class="diploma-label">Шоу чемпион Швейцарии</span></button></div>
     <div class="lightbox" data-lightbox hidden role="dialog" aria-modal="true">
       <div class="lightbox-bar"><p data-lightbox-caption></p><button class="btn btn-ghost" type="button" data-lightbox-close>Закрыть просмотр</button></div>
       <div class="lightbox-stage"><img alt="" /></div>
@@ -454,7 +417,7 @@ export const bodyHtml = `
       <p class="eyebrow">Свет</p><h2>Галерея</h2>
       <div data-gallery>
       <div class="gallery-grid gallery-grid--compact">
-        <button type="button" class="gallery-item portrait hero-shot" data-caption="Пари — норвич-терьер"><img loading="lazy" data-original="${IMG["pari-hero.jpg"]}" src="${PREVIEW[IMG["pari-hero.jpg"]] ?? IMG["pari-hero.jpg"]}" alt="Пари — норвич-терьер" /></button><button type="button" class="gallery-item square" data-caption="Портрет Пари"><img loading="lazy" data-original="${IMG["pari-portrait-01.jpg"]}" src="${PREVIEW[IMG["pari-portrait-01.jpg"]] ?? IMG["pari-portrait-01.jpg"]}" alt="Портрет Пари" /></button><button type="button" class="gallery-item portrait" data-caption="Пари в лесу"><img loading="lazy" data-original="${IMG["pari-live-log.jpg"]}" src="${PREVIEW[IMG["pari-live-log.jpg"]] ?? IMG["pari-live-log.jpg"]}" alt="Пари идёт по бревну в лесу" /></button><button type="button" class="gallery-item portrait" data-caption="Пари с розетками"><img loading="lazy" data-original="${IMG["pari-live-awards.jpg"]}" src="${PREVIEW[IMG["pari-live-awards.jpg"]] ?? IMG["pari-live-awards.jpg"]}" alt="Пари среди выставочных розеток" /></button><button type="button" class="gallery-item landscape" data-caption="Пари на подиуме CACIB FCI Минск"><img loading="lazy" data-original="${IMG["pari-show-minsk-podium.jpg"]}" src="${PREVIEW[IMG["pari-show-minsk-podium.jpg"]] ?? IMG["pari-show-minsk-podium.jpg"]}" alt="Пари на подиуме CACIB FCI Минск" /></button>
+        <button type="button" class="gallery-item portrait hero-shot" data-caption="Пари — норвич-терьер"><img loading="lazy" data-original="${IMG["pari-hero.jpg"]}" src="${previewFor(IMG["pari-hero.jpg"])}" alt="Пари — норвич-терьер" /></button><button type="button" class="gallery-item square" data-caption="Портрет Пари"><img loading="lazy" data-original="${IMG["pari-portrait-01.jpg"]}" src="${previewFor(IMG["pari-portrait-01.jpg"])}" alt="Портрет Пари" /></button><button type="button" class="gallery-item portrait" data-caption="Пари в лесу"><img loading="lazy" data-original="${IMG["pari-live-log.jpg"]}" src="${previewFor(IMG["pari-live-log.jpg"])}" alt="Пари идёт по бревну в лесу" /></button><button type="button" class="gallery-item portrait" data-caption="Пари с розетками"><img loading="lazy" data-original="${IMG["pari-live-awards.jpg"]}" src="${previewFor(IMG["pari-live-awards.jpg"])}" alt="Пари среди выставочных розеток" /></button><button type="button" class="gallery-item landscape" data-caption="Пари на подиуме CACIB FCI Минск"><img loading="lazy" data-original="${IMG["pari-show-minsk-podium.jpg"]}" src="${previewFor(IMG["pari-show-minsk-podium.jpg"])}" alt="Пари на подиуме CACIB FCI Минск" /></button>
       </div>
       <div class="lightbox" data-lightbox hidden role="dialog" aria-modal="true">
         <div class="lightbox-bar"><p data-lightbox-caption></p><button class="btn btn-ghost" type="button" data-lightbox-close>Закрыть просмотр</button></div>
