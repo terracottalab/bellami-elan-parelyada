@@ -1,3 +1,4 @@
+import { publicPageLinks } from "@/landing/public-site";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { LandingPage } from "@/landing/LandingPage";
@@ -5,6 +6,7 @@ import { bodyHtml, description, title } from "@/landing/legal.privacy.ru";
 
 export const Route = createFileRoute("/ru/legal/privacy")({
   head: () => ({
+    links: publicPageLinks("ru", "/legal/privacy"),
     meta: [
       { title },
       { name: "description", content: description },

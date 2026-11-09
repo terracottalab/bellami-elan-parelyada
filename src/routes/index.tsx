@@ -1,3 +1,4 @@
+import { publicPageLinks } from "@/landing/public-site";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { LandingPage } from "@/landing/LandingPage";
@@ -18,11 +19,14 @@ export const Route = createFileRoute("/")({
   head: ({ loaderData }) => {
     const c = loaderData?.locale === "en" ? en : ru;
     return {
+      links: publicPageLinks(loaderData?.locale ?? "ru", "", true),
       meta: [
         { title: c.title },
         { name: "description", content: c.description },
         { property: "og:title", content: c.title },
         { property: "og:description", content: c.description },
+        { property: "og:image", content: "https://norwichland.com/__l5e/assets-v1/9d18f977-ece8-4d46-b389-cd20de570fff/pari-hero.jpg" },
+        { name: "twitter:image", content: "https://norwichland.com/__l5e/assets-v1/9d18f977-ece8-4d46-b389-cd20de570fff/pari-hero.jpg" },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
       ],

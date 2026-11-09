@@ -1632,3 +1632,22 @@ html, .landing{
     margin-inline: 0;
   }
 }
+
+/* Requested contact and compact phone first screen; preserve existing palette. */
+.landing .footer-brand { font-size: 1.6rem; margin-bottom: .4rem; }
+.landing .contact-email { display:flex; flex-wrap:wrap; align-items:center; gap:1rem; }
+.landing .contact-policy { margin-top:1.4rem; }
+.landing .lightbox { z-index: 10001; }
+.cookie-consent { position:fixed; bottom:0; left:0; right:0; z-index:10000; background:var(--ivory); color:var(--charcoal); border-top:1px solid var(--line); padding:1rem 1.5rem; display:flex; gap:1.5rem; align-items:center; font-family:var(--sans); }
+.cookie-consent p { margin:0; flex:1; }
+.cookie-consent a { text-decoration:underline; }
+.cookie-consent > div { display:flex; gap:.5rem; }
+@media (max-width:767px) {
+  .landing .hero { grid-template-rows:230px auto; }
+  .landing .hero-media { min-height:0; height:230px; }
+  .landing .hero-copy { padding:1.25rem 0 1.5rem; }
+  .landing .hero-rank { margin-top:.5rem; }
+  .landing .hero-copy .lede { margin-top:.65rem; }
+  .landing .hero-note { margin-top:.6rem; }
+  .cookie-consent { flex-direction:column; align-items:stretch; gap:.75rem; padding:1rem; }
+}

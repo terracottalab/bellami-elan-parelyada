@@ -1,3 +1,4 @@
+import { footerHtml } from "./public-site";
 export type PublicShow = {
   id: string;
   show_date: string;
@@ -10,12 +11,12 @@ export type PublicShow = {
   notes: string | null;
 };
 
-export const showsTitleRu = "Выставочные результаты — Bellami-Elan Parelyada — норвич-терьер Пари";
+export const showsTitleRu = "Выставочные результаты Пари — норвич-терьер";
 export const showsDescriptionRu =
-  "Полный список выставочных результатов и титулов норвич-терьера Bellami-Elan Parelyada (Пари).";
-export const showsTitleEn = "Show Results — Bellami-Elan Parelyada — Norwich Terrier";
+  "Все выставки Пари: даты, судьи, оценки и титулы.";
+export const showsTitleEn = "Pari’s show results — Norwich Terrier";
 export const showsDescriptionEn =
-  "Complete list of show results and titles of the Norwich Terrier Bellami-Elan Parelyada (Pari).";
+  "Every show Pari has entered: dates, judges, grades and titles.";
 
 const COUNTRY_EN: Record<string, string> = { Россия: "Russia", Армения: "Armenia" };
 const CLASS_EN: Record<string, string> = {
@@ -75,11 +76,11 @@ export function buildShowsHtml(shows: PublicShow[], locale: "ru" | "en") {
     .join("");
 
   const nav = ru
-    ? `<a href="/#about">Пари</a><a href="/#shows">Выставки</a><a href="/#breed">О породе</a><a href="/#puppies">Будущий помёт</a><a href="/#gallery">Галерея</a><a href="/#contacts">Контакты</a>`
+    ? `<a href="/ru#about">Пари</a><a href="/ru#shows">Выставки</a><a href="/ru#breed">О породе</a><a href="/ru#puppies">Будущий помёт</a><a href="/ru#gallery">Галерея</a><a href="/ru#contacts">Контакты</a>`
     : `<a href="/en#about">Pari</a><a href="/en#shows">Shows</a><a href="/en#breed">The Breed</a><a href="/en#puppies">Planned Litter</a><a href="/en#gallery">Gallery</a><a href="/en#contacts">Contact</a>`;
-  const home = ru ? "/" : "/en";
-  const cta = ru ? "Заявка на щенка" : "Puppy Enquiry";
-  const ctaHref = ru ? "/#puppy-application" : "/en#puppy-application";
+  const home = ru ? "/ru" : "/en";
+  const cta = ru ? "Написать мне" : "Get in touch";
+  const ctaHref = ru ? "/ru#contacts" : "/en#contacts";
 
   return `
   <a class="skip-link" href="#content">${ru ? "К содержанию" : "Skip to content"}</a>
@@ -129,28 +130,6 @@ export function buildShowsHtml(shows: PublicShow[], locale: "ru" | "en") {
       <p style="margin-top:2rem"><a class="btn btn-line" href="${home}">${ru ? "Вернуться на главную" : "Back to home"}</a></p>
     </div></section>
   </main>
-  <footer class="site-footer">
-    <div class="container-wide">
-      <div class="footer-grid">
-        <div>
-          <p class="serif" style="font-size:1.6rem;margin-bottom:.4rem">Bellami-Elan Parelyada</p>
-          <p>${ru ? "Норвич-терьер" : "Norwich Terrier"}</p>
-        </div>
-        <nav class="footer-nav">${nav}</nav>
-        <div>
-          <a class="btn btn-ghost" href="${ctaHref}">${cta}</a>
-          <p style="margin-top:1rem"><a href="/ru/shows">RU</a> | <a href="/en/shows">EN</a></p>
-        </div>
-      </div>
-      <div class="footer-meta">
-        <span>© 2026 Bellami-Elan Parelyada</span>
-        <span>${
-          ru
-            ? `<a href="/ru/legal/privacy">Конфиденциальность</a> · <a href="/ru/legal/terms">Условия</a> · <a href="/ru/legal/offer">Договор оферты</a>`
-            : `<a href="/en/legal/privacy">Privacy</a> · <a href="/en/legal/terms">Terms</a> · <a href="/en/legal/offer">Public offer</a>`
-        }</span>
-      </div>
-    </div>
-  </footer>
+  ${footerHtml(locale)}
   `;
 }

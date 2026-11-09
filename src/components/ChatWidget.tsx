@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { MessageCircle, X, Send, User, Phone, CheckSquare, Square } from "lucide-react";
+import { MessageCircle, X } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Conversation,
   ConversationContent,
@@ -21,12 +20,10 @@ import {
 import {
   startChatSession,
   sendChatMessage,
-  createTicketFromChat,
 } from "@/lib/chat.functions";
-import { Link } from "@tanstack/react-router";
 
 type Locale = "ru" | "en";
-type Step = "language" | "contact" | "chat";
+type Step = "language" | "chat";
 
 interface MessageItem {
   id: string;
@@ -40,12 +37,6 @@ const copy = {
     greeting: "Здравствуйте! Я — Норвич Ассистент.",
     subGreeting: "Помогу узнать больше о породе, о Пари и ответить на вопросы.",
     chooseLanguage: "На каком языке вам будет удобнее продолжить общение?",
-    nameLabel: "Ваше имя",
-    phoneLabel: "Телефон (международный формат)",
-    consentPrefix: "Я согласен(а) с",
-    privacyLink: "Политикой конфиденциальности",
-    consentRequired: "Необходимо согласие",
-    startChat: "Начать чат",
     placeholder: "Напишите сообщение...",
     quickTitle: "Быстрые вопросы",
     quickQuestions: [
@@ -56,7 +47,6 @@ const copy = {
       "Задать свой вопрос",
     ],
     contactCta: "Связаться с владельцем",
-    contactSent: "Запрос на связь отправлен.",
     languageLabel: "RU",
   },
   en: {
@@ -64,12 +54,6 @@ const copy = {
     greeting: "Hello! I'm Norwich Assistant.",
     subGreeting: "I can tell you about the breed, about Pari, and answer your questions.",
     chooseLanguage: "Which language would you prefer for our conversation?",
-    nameLabel: "Your name",
-    phoneLabel: "Phone (international format)",
-    consentPrefix: "I agree to the",
-    privacyLink: "Privacy Policy",
-    consentRequired: "Consent is required",
-    startChat: "Start chat",
     placeholder: "Type a message...",
     quickTitle: "Quick questions",
     quickQuestions: [
@@ -80,69 +64,42 @@ const copy = {
       "Ask my own question",
     ],
     contactCta: "Contact the owner",
-    contactSent: "Contact request sent to the owner.",
     languageLabel: "EN",
   },
 };
 
-export function ChatWidget() {
+export function ChatWidget({ initialLocale = "ru" }: { initialLocale?: Locale }) {
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("language");
-  const [locale, setLocale] = useState<Locale>("ru");
+  const [locale, setLocale] = useState<Locale>(initialLocale);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [messages, setMessages] = useState<MessageItem[]>([]);
   const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({ name: "", phone: "", consent: false });
   const [formError, setFormError] = useState("");
-  const [notice, setNotice] = useState("");
 
   const startSession = useServerFn(startChatSession);
   const sendMessage = useServerFn(sendChatMessage);
-  const createTicket = useServerFn(createTicketFromChat);
 
   const t = copy[locale];
 
-  const handleLanguage = (lang: Locale) => {
+  const handleLanguage = async (lang: Locale) => {
+    if (loading) return;
     setLocale(lang);
-    setStep("contact");
-  };
-
-  const handleStartChat = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name.trim() || !form.phone.trim()) {
-      setFormError(t.consentRequired);
-      return;
-    }
-    if (!form.consent) {
-      setFormError(t.consentRequired);
-      return;
-    }
-    setFormError("");
     setLoading(true);
+    setFormError("");
     try {
-      const { id } = await startSession({
-        data: { locale, name: form.name, phone: form.phone, consent: true },
-      });
+      const { id } = await startSession({ data: { locale: lang } });
       setSessionId(id);
-      setMessages([
-        {
-          id: "welcome",
-          role: "assistant",
-          content: locale === "ru" ? "Приветствую! Что вас интересует?" : "Welcome! What would you like to know?",
-        },
-      ]);
+      setMessages([{ id: "welcome", role: "assistant", content: lang === "ru" ? "Приветствую! Что вас интересует?" : "Welcome! What would you like to know?" }]);
       setStep("chat");
-    } catch (err) {
-      setFormError(locale === "ru" ? "Не удалось начать чат. Попробуйте позже." : "Could not start chat. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    } catch {
+      setFormError(lang === "ru" ? "Не удалось начать чат. Попробуйте позже." : "Could not start chat. Please try again.");
+    } finally { setLoading(false); }
   };
 
   const submit = async (text: string) => {
     if (!sessionId || !text.trim() || loading) return;
     setLoading(true);
-    setNotice("");
     const userMsg: MessageItem = { id: crypto.randomUUID(), role: "user", content: text };
     setMessages((prev) => [...prev, userMsg]);
     try {
@@ -155,21 +112,6 @@ export function ChatWidget() {
           ? "Не удалось отправить сообщение. Попробуйте позже."
           : "Could not send message. Please try again.";
       setMessages((prev) => [...prev, { id: crypto.randomUUID(), role: "assistant", content: errMsg }]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleContact = async () => {
-    if (!sessionId) return;
-    setLoading(true);
-    try {
-      const { message } = await createTicket({
-        data: { sessionId, reason: locale === "ru" ? "Связаться с владельцем" : "Contact the owner" },
-      });
-      setNotice(message);
-    } catch (err) {
-      setNotice(locale === "ru" ? "Не удалось отправить запрос." : "Could not send request.");
     } finally {
       setLoading(false);
     }
@@ -224,77 +166,20 @@ export function ChatWidget() {
                   <Button
                     variant="outline"
                     className="chat-lang-btn"
-                    onClick={() => handleLanguage("ru")}
+                    onClick={() => handleLanguage("ru")} disabled={loading}
                   >
                     Русский
                   </Button>
                   <Button
                     variant="outline"
                     className="chat-lang-btn"
-                    onClick={() => handleLanguage("en")}
+                    onClick={() => handleLanguage("en")} disabled={loading}
                   >
                     English
                   </Button>
                 </div>
-              </div>
-            )}
-
-            {step === "contact" && (
-              <form className="chat-contact" onSubmit={handleStartChat}>
-                <p className="chat-greeting">{t.greeting}</p>
-                <p className="chat-choose">{t.chooseLanguage}</p>
-                <div className="chat-field">
-                  <label htmlFor="chat-name">{t.nameLabel}</label>
-                  <Input
-                    id="chat-name"
-                    value={form.name}
-                    onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
-                    required
-                    autoComplete="name"
-                  />
-                </div>
-                <div className="chat-field">
-                  <label htmlFor="chat-phone">{t.phoneLabel}</label>
-                  <Input
-                    id="chat-phone"
-                    type="tel"
-                    value={form.phone}
-                    onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))}
-                    required
-                    autoComplete="tel"
-                    placeholder="+7 999 000-00-00"
-                  />
-                </div>
-                <label className="chat-consent">
-                  <button
-                    type="button"
-                    className="chat-checkbox"
-                    onClick={() => setForm((s) => ({ ...s, consent: !s.consent }))}
-                    aria-pressed={form.consent}
-                  >
-                    {form.consent ? (
-                      <CheckSquare className="size-4" />
-                    ) : (
-                      <Square className="size-4" />
-                    )}
-                  </button>
-                  <span>
-                    {t.consentPrefix}{" "}
-                    <Link
-                      to={locale === "en" ? "/en/legal/privacy" : "/ru/legal/privacy"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="chat-privacy-link"
-                    >
-                      {t.privacyLink}
-                    </Link>
-                  </span>
-                </label>
                 {formError && <p className="chat-error">{formError}</p>}
-                <Button type="submit" className="chat-start-btn" disabled={loading}>
-                  {loading ? "..." : t.startChat}
-                </Button>
-              </form>
+              </div>
             )}
 
             {step === "chat" && (
@@ -315,7 +200,6 @@ export function ChatWidget() {
                   </ConversationContent>
                 </Conversation>
 
-                {notice && <div className="chat-notice">{notice}</div>}
 
                 <div className="chat-quick">
                   <p className="chat-quick-title">{t.quickTitle}</p>
@@ -335,21 +219,9 @@ export function ChatWidget() {
                 </div>
 
                 <div className="chat-ctas">
-                  <button
-                    type="button"
-                    className="chat-cta-btn chat-cta-btn-primary"
-                    onClick={handleContact}
-                    disabled={loading || !messages.some((m) => m.role === "user")}
-                    title={
-                      messages.some((m) => m.role === "user")
-                        ? undefined
-                        : locale === "ru"
-                          ? "Напишите сообщение, чтобы связаться с владельцем"
-                          : "Type a message to contact the owner"
-                    }
-                  >
-                    {t.contactCta}
-                  </button>
+                  <Button asChild variant="outline" className="chat-cta-btn chat-cta-btn-primary">
+                    <a href={`/${locale}#contacts`} onClick={() => setOpen(false)}>{t.contactCta}</a>
+                  </Button>
                 </div>
 
                 <PromptInput
@@ -365,6 +237,7 @@ export function ChatWidget() {
                     <PromptInputSubmit disabled={loading} />
                   </PromptInputFooter>
                 </PromptInput>
+                <p className="chat-disclosure">{locale === "ru" ? "Отвечает ИИ-ассистент. Не указывайте в чате телефон и другие личные данные." : "Answers are AI-generated. Please don’t share your phone number or other personal details."}</p>
               </>
             )}
           </div>

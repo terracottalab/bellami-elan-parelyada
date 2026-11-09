@@ -13,9 +13,6 @@ const KB_QUERY_LIMIT = 40;
 
 const startSessionSchema = z.object({
   locale: z.enum(["ru", "en"]),
-  name: z.string().trim().min(1).max(200),
-  phone: z.string().trim().min(5).max(40),
-  consent: z.literal(true),
 });
 
 const sendMessageSchema = z.object({
@@ -118,7 +115,7 @@ function buildSystemPrompt(locale: "ru" | "en", kb: Array<{ source: string; titl
   if (locale === "en") {
     return `You are Norwich Assistant, a helpful assistant for the Norwich Terrier kennel website of Bellami-Elan Parelyada (Pari).
 Answer ONLY based on the source material below. If the material does not contain enough information for a confident answer, say exactly:
-"I don't have enough information in the available materials to answer this confidently. I can pass your question to the owner."
+"I don't have enough information in the available materials to answer this confidently. You can contact the owner via [Get in touch](/en#contacts)."
 
 Rules:
 - Answer in English.
@@ -132,7 +129,7 @@ ${chunks}`;
 
   return `Ты — Норвич Ассистент, помощник сайта питомника норвич-терьера Bellami-Elan Parelyada (Пари).
 Отвечай ТОЛЬКО на основе приведённых ниже материалов. Если в материалах недостаточно информации для уверенного ответа, скажи точно такую фразу:
-"У меня недостаточно информации в доступных материалах, чтобы уверенно ответить. Я могу передать ваш вопрос владельцу."
+"У меня недостаточно информации в доступных материалах, чтобы уверенно ответить. Вы можете написать владельцу через [Написать мне](/ru#contacts)."
 
 Правила:
 - Отвечай на русском языке.
@@ -153,9 +150,9 @@ export const startChatSession = createServerFn({ method: "POST" })
       .from("chat_sessions")
       .insert({
         locale: data.locale,
-        name: data.name,
-        phone: data.phone,
-        consent: true,
+        name: "",
+        phone: "",
+        consent: false,
         status: "active",
         ip_hash: hash,
         user_agent: deviceFromUA(getRequestHeader("user-agent") ?? ""),
@@ -198,15 +195,7 @@ export const sendChatMessage = createServerFn({ method: "POST" })
     const locale = session.locale as "ru" | "en";
 
     if (isEscalation(data.message)) {
-      const reason =
-        locale === "en" ? "User requested owner contact" : "Пользователь попросил связаться с владельцем";
-      await createTicket(supabase, data.sessionId, reason);
-      return {
-        reply:
-          locale === "en"
-            ? "I have passed your request to the owner. They will contact you soon."
-            : "Я передал ваш запрос владельцу. Он свяжется с вами в ближайшее время.",
-      };
+      return { reply: locale === "en" ? "You can write to the owner via [Get in touch](/en#contacts). Please do not share personal details here." : "Написать владельцу можно через раздел [Написать мне](/ru#contacts). Не указывайте личные данные здесь." };
     }
 
     const history = await getHistory(supabase, data.sessionId);
@@ -232,8 +221,8 @@ export const sendChatMessage = createServerFn({ method: "POST" })
     const reply =
       result.text ||
       (locale === "en"
-        ? "I don't have enough information in the available materials to answer this confidently. I can pass your question to the owner."
-        : "У меня недостаточно информации в доступных материалах, чтобы уверенно ответить. Я могу передать ваш вопрос владельцу.");
+        ? "I don't have enough information in the available materials to answer this confidently. You can contact the owner via [Get in touch](/en#contacts)."
+        : "У меня недостаточно информации в доступных материалах, чтобы уверенно ответить. Вы можете написать владельцу через [Написать мне](/ru#contacts).");
 
     await supabase.from("chat_messages").insert({
       session_id: data.sessionId,
@@ -245,97 +234,6 @@ export const sendChatMessage = createServerFn({ method: "POST" })
 
     return { reply };
   });
-
-export const createTicketFromChat = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => escalationSchema.parse(input))
-  .handler(async ({ data }) => {
-    const supabase = await adminClient();
-    const session = await getSession(supabase, data.sessionId);
-    if (!session) throw new Error("Session not found");
-
-    await createTicket(supabase, data.sessionId, data.reason);
-
-    return {
-      ok: true as const,
-      message:
-        session.locale === "en"
-          ? "Your request has been sent to the owner. They will contact you soon."
-          : "Ваш запрос отправлен владельцу. Он свяжется с вами в ближайшее время.",
-    };
-  });
-
-export const createEnquiryFromChat = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => escalationSchema.parse(input))
-  .handler(async ({ data }) => {
-    const supabase = await adminClient();
-    const session = await getSession(supabase, data.sessionId);
-    if (!session) throw new Error("Session not found");
-
-    const history = await getHistory(supabase, data.sessionId);
-    const summary = history
-      .map((m) => `${m.role}: ${m.content}`)
-      .join("\n")
-      .slice(0, 4000);
-
-    const { error } = await supabase.from("enquiries").insert({
-      locale: session.locale,
-      name: session.name,
-      place: "—",
-      email: "—",
-      preferred_contact: `Phone: ${session.phone}`,
-      handle: "",
-      timing: "AI chat",
-      purpose: "AI chat enquiry",
-      experience: "—",
-      why_norwich: data.reason,
-      message: summary,
-      consent: true,
-      source: "ai_chat",
-      chat_session_id: data.sessionId,
-    });
-
-    if (error) {
-      console.error("enquiry from chat failed", error.message);
-      throw new Error("Failed to create enquiry");
-    }
-
-    return {
-      ok: true as const,
-      message:
-        session.locale === "en"
-          ? "Your enquiry has been sent to the owner. They will contact you soon."
-          : "Ваш запрос отправлен владельцу. Он свяжется с вами в ближайшее время.",
-    };
-  });
-
-async function createTicket(supabase: SupabaseClient<Database>, sessionId: string, reason: string) {
-  const number = `T-${Date.now().toString(36).toUpperCase()}`;
-  const { error } = await supabase.from("tickets").insert({
-    session_id: sessionId,
-    number,
-    reason,
-  });
-  if (error) {
-    console.error("ticket insert failed", error.message);
-    throw new Error("Failed to create ticket");
-  }
-
-  try {
-    const session = await getSession(supabase, sessionId);
-    const history = await getHistory(supabase, sessionId);
-    const lastUser = [...history].reverse().find((m) => m.role === "user");
-    const { notifyTelegram, chatNotification } = await import("./telegram.server");
-    await notifyTelegram(
-      chatNotification({
-        name: session?.name ?? "—",
-        contact: session?.phone ?? "—",
-        subject: `${reason}${lastUser ? `\nСообщение: ${lastUser.content}` : ""}\nТикет ${number}`,
-      }),
-    );
-  } catch (e) {
-    console.error("telegram ticket notification failed", (e as Error).message);
-  }
-}
 
 // Admin functions
 const sessionFilterSchema = z.object({

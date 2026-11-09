@@ -27,12 +27,8 @@ import { Route as AuthenticatedAdminPhotosRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAdminShowsRouteImport } from './routes/_authenticated/admin.shows'
 import { Route as AuthenticatedAdminTelegramRouteImport } from './routes/_authenticated/admin.telegram'
 import { Route as AuthenticatedAdminTicketsRouteImport } from './routes/_authenticated/admin.tickets'
-import { Route as EnLegalOfferRouteImport } from './routes/en.legal.offer'
 import { Route as EnLegalPrivacyRouteImport } from './routes/en.legal.privacy'
-import { Route as EnLegalTermsRouteImport } from './routes/en.legal.terms'
-import { Route as RuLegalOfferRouteImport } from './routes/ru.legal.offer'
 import { Route as RuLegalPrivacyRouteImport } from './routes/ru.legal.privacy'
-import { Route as RuLegalTermsRouteImport } from './routes/ru.legal.terms'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 import { Route as ApiPublicTelegramWebhookRouteImport } from './routes/api/public/telegram/webhook'
 
@@ -132,34 +128,14 @@ const AuthenticatedAdminTicketsRoute =
     path: '/tickets',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const EnLegalOfferRoute = EnLegalOfferRouteImport.update({
-  id: '/en/legal/offer',
-  path: '/en/legal/offer',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const EnLegalPrivacyRoute = EnLegalPrivacyRouteImport.update({
   id: '/en/legal/privacy',
   path: '/en/legal/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EnLegalTermsRoute = EnLegalTermsRouteImport.update({
-  id: '/en/legal/terms',
-  path: '/en/legal/terms',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RuLegalOfferRoute = RuLegalOfferRouteImport.update({
-  id: '/ru/legal/offer',
-  path: '/ru/legal/offer',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const RuLegalPrivacyRoute = RuLegalPrivacyRouteImport.update({
   id: '/ru/legal/privacy',
   path: '/ru/legal/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RuLegalTermsRoute = RuLegalTermsRouteImport.update({
-  id: '/ru/legal/terms',
-  path: '/ru/legal/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
@@ -191,12 +167,8 @@ export interface FileRoutesByFullPath {
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
   '/admin/telegram': typeof AuthenticatedAdminTelegramRoute
   '/admin/tickets': typeof AuthenticatedAdminTicketsRoute
-  '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
-  '/en/legal/terms': typeof EnLegalTermsRoute
-  '/ru/legal/offer': typeof RuLegalOfferRoute
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
-  '/ru/legal/terms': typeof RuLegalTermsRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
   '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
@@ -217,12 +189,8 @@ export interface FileRoutesByTo {
   '/admin/shows': typeof AuthenticatedAdminShowsRoute
   '/admin/telegram': typeof AuthenticatedAdminTelegramRoute
   '/admin/tickets': typeof AuthenticatedAdminTicketsRoute
-  '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
-  '/en/legal/terms': typeof EnLegalTermsRoute
-  '/ru/legal/offer': typeof RuLegalOfferRoute
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
-  '/ru/legal/terms': typeof RuLegalTermsRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
   '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
@@ -246,12 +214,8 @@ export interface FileRoutesById {
   '/_authenticated/admin/shows': typeof AuthenticatedAdminShowsRoute
   '/_authenticated/admin/telegram': typeof AuthenticatedAdminTelegramRoute
   '/_authenticated/admin/tickets': typeof AuthenticatedAdminTicketsRoute
-  '/en/legal/offer': typeof EnLegalOfferRoute
   '/en/legal/privacy': typeof EnLegalPrivacyRoute
-  '/en/legal/terms': typeof EnLegalTermsRoute
-  '/ru/legal/offer': typeof RuLegalOfferRoute
   '/ru/legal/privacy': typeof RuLegalPrivacyRoute
-  '/ru/legal/terms': typeof RuLegalTermsRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
   '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
@@ -275,12 +239,8 @@ export interface FileRouteTypes {
     | '/admin/shows'
     | '/admin/telegram'
     | '/admin/tickets'
-    | '/en/legal/offer'
     | '/en/legal/privacy'
-    | '/en/legal/terms'
-    | '/ru/legal/offer'
     | '/ru/legal/privacy'
-    | '/ru/legal/terms'
     | '/admin/'
     | '/api/public/media/$'
     | '/api/public/telegram/webhook'
@@ -301,12 +261,8 @@ export interface FileRouteTypes {
     | '/admin/shows'
     | '/admin/telegram'
     | '/admin/tickets'
-    | '/en/legal/offer'
     | '/en/legal/privacy'
-    | '/en/legal/terms'
-    | '/ru/legal/offer'
     | '/ru/legal/privacy'
-    | '/ru/legal/terms'
     | '/admin'
     | '/api/public/media/$'
     | '/api/public/telegram/webhook'
@@ -329,12 +285,8 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/shows'
     | '/_authenticated/admin/telegram'
     | '/_authenticated/admin/tickets'
-    | '/en/legal/offer'
     | '/en/legal/privacy'
-    | '/en/legal/terms'
-    | '/ru/legal/offer'
     | '/ru/legal/privacy'
-    | '/ru/legal/terms'
     | '/_authenticated/admin/'
     | '/api/public/media/$'
     | '/api/public/telegram/webhook'
@@ -348,12 +300,8 @@ export interface RootRouteChildren {
   RuShowsRoute: typeof RuShowsRoute
   EnIndexRoute: typeof EnIndexRoute
   RuIndexRoute: typeof RuIndexRoute
-  EnLegalOfferRoute: typeof EnLegalOfferRoute
   EnLegalPrivacyRoute: typeof EnLegalPrivacyRoute
-  EnLegalTermsRoute: typeof EnLegalTermsRoute
-  RuLegalOfferRoute: typeof RuLegalOfferRoute
   RuLegalPrivacyRoute: typeof RuLegalPrivacyRoute
-  RuLegalTermsRoute: typeof RuLegalTermsRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
   ApiPublicTelegramWebhookRoute: typeof ApiPublicTelegramWebhookRoute
 }
@@ -486,13 +434,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminTicketsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/en/legal/offer': {
-      id: '/en/legal/offer'
-      path: '/en/legal/offer'
-      fullPath: '/en/legal/offer'
-      preLoaderRoute: typeof EnLegalOfferRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/en/legal/privacy': {
       id: '/en/legal/privacy'
       path: '/en/legal/privacy'
@@ -500,32 +441,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnLegalPrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/en/legal/terms': {
-      id: '/en/legal/terms'
-      path: '/en/legal/terms'
-      fullPath: '/en/legal/terms'
-      preLoaderRoute: typeof EnLegalTermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ru/legal/offer': {
-      id: '/ru/legal/offer'
-      path: '/ru/legal/offer'
-      fullPath: '/ru/legal/offer'
-      preLoaderRoute: typeof RuLegalOfferRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/ru/legal/privacy': {
       id: '/ru/legal/privacy'
       path: '/ru/legal/privacy'
       fullPath: '/ru/legal/privacy'
       preLoaderRoute: typeof RuLegalPrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ru/legal/terms': {
-      id: '/ru/legal/terms'
-      path: '/ru/legal/terms'
-      fullPath: '/ru/legal/terms'
-      preLoaderRoute: typeof RuLegalTermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/media/$': {
@@ -593,12 +513,8 @@ const rootRouteChildren: RootRouteChildren = {
   RuShowsRoute: RuShowsRoute,
   EnIndexRoute: EnIndexRoute,
   RuIndexRoute: RuIndexRoute,
-  EnLegalOfferRoute: EnLegalOfferRoute,
   EnLegalPrivacyRoute: EnLegalPrivacyRoute,
-  EnLegalTermsRoute: EnLegalTermsRoute,
-  RuLegalOfferRoute: RuLegalOfferRoute,
   RuLegalPrivacyRoute: RuLegalPrivacyRoute,
-  RuLegalTermsRoute: RuLegalTermsRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
   ApiPublicTelegramWebhookRoute: ApiPublicTelegramWebhookRoute,
 }

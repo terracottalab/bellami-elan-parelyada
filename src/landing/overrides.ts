@@ -1,3 +1,5 @@
+import { previewFor } from "./image-previews";
+
 export type SitePhoto = {
   id: string;
   slot: string;
@@ -126,7 +128,7 @@ export function applyOverrides(
         const caption = photo.caption ?? "";
         const alt = photo.alt ?? caption;
         const shape = GALLERY_SHAPES[index % GALLERY_SHAPES.length];
-        return `<button type="button" class="gallery-item ${shape}" data-caption="${escapeAttr(caption)}"><img src="${escapeAttr(photo.url)}" alt="${escapeAttr(alt)}" loading="lazy" /></button>`;
+        return `<button type="button" class="gallery-item ${shape}" data-caption="${escapeAttr(caption)}"><img data-original="${escapeAttr(photo.url)}" src="${escapeAttr(previewFor(photo.url))}" alt="${escapeAttr(alt)}" loading="lazy" /></button>`;
       })
       .join("");
   }
@@ -137,7 +139,7 @@ export function applyOverrides(
     row.innerHTML = diplomas
       .map((photo) => {
         const caption = photo.caption ?? "";
-        return `<button type="button" class="diploma-card" data-caption="${escapeAttr(caption)}"><span class="diploma-frame"><img src="${escapeAttr(photo.url)}" alt="${escapeAttr(photo.alt ?? caption)}" loading="lazy" /></span><span class="diploma-label">${escapeHtml(caption)}</span></button>`;
+        return `<button type="button" class="diploma-card" data-caption="${escapeAttr(caption)}"><span class="diploma-frame"><img data-original="${escapeAttr(photo.url)}" src="${escapeAttr(previewFor(photo.url))}" alt="${escapeAttr(photo.alt ?? caption)}" loading="lazy" /></span><span class="diploma-label">${escapeHtml(caption)}</span></button>`;
       })
       .join("");
   }
