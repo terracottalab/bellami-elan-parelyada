@@ -78,7 +78,7 @@ export const bodyHtml = `
       <div class="hero-copy">
         <p class="eyebrow">Норвич-терьер</p>
         <h1 class="hero-name"><span class="hero-name-line">Bellami-Elan</span><span class="hero-name-script">Parelyada</span></h1>
-        <p class="hero-rank">Юный интернациональный чемпион красоты FCI (C.I.B.-J)</p>
+        <p class="hero-rank">Юный интернациональный чемпион красоты FCI<br><span style="white-space:nowrap">(C.I.B.-J)</span></p>
         <p class="caption hero-titles">CH.RUS · CH.SchWZ · CH.SVN · JGrCH.RUS · JCH.RKF · JCH.INT · JCH.RUS · BJCH.RUS · CISJ Winner · RUS BJW · JSHCH RUS · JSHCH RG · JCH GRGP · JCH.HCC · GJCH.ARM · JCH.ARM · JCH.BLR · JCH.HRV · RKF BW · BYJW</p>
         <p class="lede">Выставочная карьера. Международные линии. Будущая племенная программа.</p>
         <p class="hero-note">Первый помёт — 2027</p>
